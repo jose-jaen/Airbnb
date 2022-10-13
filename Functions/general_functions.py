@@ -196,7 +196,6 @@ def KNN_Imputer(feature, target, k):
             feature.loc[k, j] = np.nanmean(feature.loc[closest, j])
 
     # In case some neighbors were also missing, perform iterative imputation
-    # cambio de bayesian ridge
     if any(feature.isna().sum() > 0):
         imp = IterativeImputer(
             estimator = BayesianRidge(), max_iter = 25, random_state = 42)
@@ -242,12 +241,8 @@ def Iterative_Imputer(feature, target, model):
 
     else:
         # Fit a Random Forest model
-        random_forest = RandomForestRegressor(
-        max_depth = 12,
-        bootstrap = True,
-        max_samples = 0.5,
-        n_jobs = -1,
-        random_state = 42)
+        random_forest = RandomForestRegressor(max_depth = 12, bootstrap = True,
+                      max_samples = 0.5, n_jobs = -1, random_state = 42)
 
         imp = IterativeImputer(
             estimator = random_forest, max_iter = 25, random_state = 42)
