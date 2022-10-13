@@ -17,6 +17,7 @@ Deadline: 01/2023 [Working project]
 
 To be added:
 
+- Document of the paper explaining results
 - Bayesian Inference (hypothesis testing)
 - Bayesian Linear Regression results (posterior distribution of weights)
 - Deep Learning modeling (Artificial Neural Network + Bayesian Neural Network)
