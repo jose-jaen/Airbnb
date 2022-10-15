@@ -15,11 +15,11 @@ def cv_model(data):
     # Conditions for multiple hosts for the same listing or hosts with no picture
     cond1 = data['host_has_profile_pic'] == 1
     cond2 = ~data['host_name'].str.contains('&')
-    cond3 = ~data['host_name'].str.contains('Or ', case = True)
-    cond4 = ~data['host_name'].str.contains('And ', case = True)
-    cond5 = ~data['host_name'].str.contains('AND', case = True)
+    cond3 = ~data['host_name'].str.contains('Or ', case=True)
+    cond4 = ~data['host_name'].str.contains('And ', case=True)
+    cond5 = ~data['host_name'].str.contains('AND', case=True)
     cond6 = ~data['host_name'].str.contains('Randy\\\Zuke')
-    cond7 = ~data['host_name'].str.contains('\+', case = True)
+    cond7 = ~data['host_name'].str.contains('\+', case=True)
 
     # Filter dataset
     cv_data = data[['id', 'host_picture_url']][cond1 & cond2 & cond3 & cond4 & cond5 & cond6 & cond7]
@@ -35,7 +35,7 @@ def cv_model(data):
         try:
             # Hosts that still have a profile picture are passed through a CV Model
             host_pic = get_file('host' + str(i) + '.jpg', links[i])
-            result = DeepFace.analyze(host_pic, actions = ['gender'], enforce_detection = False)
+            result = DeepFace.analyze(host_pic, actions=['gender'], enforce_detection=False)
             cv_data['cv_gender'][i] = result['gender']
             print(i)
         except:
