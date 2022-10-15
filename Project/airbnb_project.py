@@ -123,7 +123,6 @@ one_hot_encoder('greets', listings, 'amenities', 'host greets')
 del price, groups, rate, features, lat, lon
 
 # Get hosts' gender
-
 # Predict gender with CV Model
 cv_data = cv_model(listings)
 
@@ -193,7 +192,6 @@ listings['nlp_gender'] = listings['nlp_gender'].astype('category')
 del ids, idx, mode
 
 # Reading reviews and ditching out non-latin symbols 
-reviews = pd.read_csv('reviews_clean.csv')
 reviews['comments'] = only_latin(reviews['comments'])
 langs = [classify(i)[0] for i in reviews['comments']]
 ids = [j for j in range(len(langs)) if langs[j] != 'en']
