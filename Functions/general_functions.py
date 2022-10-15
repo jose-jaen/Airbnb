@@ -13,6 +13,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.experimental import enable_iterative_imputer
 from sklearn.impute import IterativeImputer 
 
+
 def read_url(link):
     """ Creates a Pandas Dataframe from online data
 
@@ -27,7 +28,7 @@ def read_url(link):
     content = response.content
 
     # Convert into a Pandas Dataframe
-    data = pd.read_csv(io.BytesIO(content), sep = ',', compression = 'gzip')
+    data = pd.read_csv(io.BytesIO(content), sep=',', compression='gzip')
     return data
 
 
@@ -76,7 +77,7 @@ def new_id(data):
     - Output:
         - Newly indexed dataset
     """
-    data = data.reset_index(drop = True)
+    data = data.reset_index(drop=True)
     return data
 
 
@@ -114,7 +115,7 @@ def vgeom(D):
         - Geometric Variability
     """
     n = D.shape[0]
-    suma = np.sum(D, axis = 1)
+    suma = np.sum(D, axis=1)
     return np.sum(suma)/n**2
 
 
@@ -131,20 +132,17 @@ def gower(X1, X2, X3):
     """
 
     # Distance Matrix for continuous variables
-    S_inv = np.linalg.inv(np.cov(X1.T, bias = False))
-    M = pairwise_distances(X1, metric = 'mahalanobis', n_jobs = -1, VI = S_inv)
-    M2 = np.multiply(M, M)
-    M = M/vgeom(M2)
+    S_inv = np.linalg.inv(np.cov(X1.T, bias=False))
+    M = pairwise_distances(X1, metric='mahalanobis', n_jobs=-1, VI=S_inv)
+    M = M/vgeom(M)
 
     # Distance Matrix for binary variables
     J = cdist(X2, X2, 'jaccard')
-    J2 = np.multiply(J, J)
-    J = J/vgeom(J2)
+    J = J/vgeom(J)
 
     # Distance Matrix for categorical variables
     C = cdist(X3, X3, 'hamming')
-    C2 = np.multiply(C, C)
-    C = C/vgeom(C2)
+    C = C/vgeom(C)
 
     # Gower Distance Matrix
     D = M + J + C
@@ -164,11 +162,11 @@ def KNN_Imputer(feature, target, k):
     """
     # Coerce into numeric data
     feature['target'] = target
-    feature = feature.apply(pd.to_numeric, errors = 'coerce')
+    feature = feature.apply(pd.to_numeric, errors='coerce')
 
     # Dataset with no missing observations
     missing_cols = [i for i in feature.columns if feature[i].isna().sum() > 0]
-    distance_data = feature.drop(missing_cols, axis = 1)
+    distance_data = feature.drop(missing_cols, axis=1)
 
     # Sort dataset by variable type
     distance_data, p1, p2, p3 = type_sort(distance_data)
@@ -185,25 +183,24 @@ def KNN_Imputer(feature, target, k):
     D = D + I*D.max()
 
     # Identify k-nearest neighbors based on Gower Distance
-    KNN = np.argpartition(D, kth = k, axis = -1)
+    KNN = np.argpartition(D, kth=k, axis=-1)
     
     # Replace missing values with the mean of neighbors
     for j in missing_cols:
         a = feature[j].isna()
         ids = [i for i in range(len(a)) if a[i] == True]
         for k in ids:
-            closest = KNN[k,:5]
+            closest = KNN[k, :5]
             feature.loc[k, j] = np.nanmean(feature.loc[closest, j])
 
     # In case some neighbors were also missing, perform iterative imputation
     if any(feature.isna().sum() > 0):
-        imp = IterativeImputer(
-            estimator = BayesianRidge(), max_iter = 25, random_state = 42)
-
+    imp = IterativeImputer(estimator = BayesianRidge(), 
+                           max_iter=25, random_state=42)
         imp.fit(feature)
         feature = imp.transform(feature)
-        
-    feature = feature.drop('target', axis = 1)
+       
+    feature = feature.drop('target', axis=1)
     return feature
 
 
@@ -224,33 +221,31 @@ def Iterative_Imputer(feature, target, model):
 
     # Coerce into numeric data
     feature['target'] = target
-    feature = feature.apply(pd.to_numeric, errors = 'coerce')
+    feature = feature.apply(pd.to_numeric, errors='coerce')
 
     # Select model for Iterative Imputation Algorithm
     if model == 'bayesian':
+        
         # Fit a Bayesian Ridge Regression model
-        imp = IterativeImputer(
-            estimator = BayesianRidge(), max_iter = 25, random_state = 42)
-
+        imp = IterativeImputer(estimator=BayesianRidge(), 
+                               max_iter=25, random_state=42)
         imp.fit(feature)
         feature = imp.transform(feature)
 
         # Retrieve a pandas dataframe
-        feature = pd.DataFrame(feature, columns = cols)
-        feature = feature.drop('target', axis = 1)
+        feature = pd.DataFrame(feature, columns=cols)
+        feature = feature.drop('target', axis=1)
 
     else:
-        # Fit a Random Forest model
-        random_forest = RandomForestRegressor(max_depth = 12, bootstrap = True,
-                      max_samples = 0.5, n_jobs = -1, random_state = 42)
-
-        imp = IterativeImputer(
-            estimator = random_forest, max_iter = 25, random_state = 42)
         
+        # Fit a Random Forest model
+        random_forest = RandomForestRegressor(max_depth=12, bootstrap=2,
+                                              max_samples=0.5, n_jobs=-1, random_state=42)
+        imp = IterativeImputer(estimator=random_forest, max_iter=25, random_state=42)
         imp.fit(feature)
         feature = imp.transform(feature)
 
         # Retrieve a pandas dataframe
-        feature = pd.DataFrame(feature, columns = cols)
-        feature = feature.drop('target', axis = 1)
+        feature = pd.DataFrame(feature, columns=cols)
+        feature = feature.drop('target', axis=1)
     return feature, target
