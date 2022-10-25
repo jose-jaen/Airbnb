@@ -33,8 +33,8 @@ def bayesian_regression(train, valid, test):
     def objective(space):
         # Build Bayesian Linear Regression Model
         bayes_reg = BayesianRidge(
-            alpha_1 = space['alpha_1'], alpha_2=space['alpha_2'],
-            lambda_1 = space['lambda_1'], lambda_2=space['lambda_2'])
+            alpha_1=space['alpha_1'], alpha_2=space['alpha_2'],
+            lambda_1=space['lambda_1'], lambda_2=space['lambda_2'])
 
         # Fit model to training data
         bayes_reg.fit(train[0], train[1])
@@ -59,8 +59,8 @@ def bayesian_regression(train, valid, test):
 
     # Build final Bayesian Linear Regression Model
     bayes_reg = BayesianRidge(
-        alpha_1 = space['alpha_1'], alpha_2=space['alpha_2'],
-        lambda_1 = space['lambda_1'], lambda_2=space['lambda_2'])
+        alpha_1=space['alpha_1'], alpha_2=space['alpha_2'],
+        lambda_1=space['lambda_1'], lambda_2=space['lambda_2'])
 
     # Fit model to training data
     bayes_reg.fit(train[0], train[1])
@@ -96,10 +96,10 @@ def elastic_net_OLS(train, valid, test):
     }
 
     def objective(space):
-        # # Build Linear Regression Model
+        # Build Linear Regression Model
         freq_reg = ElasticNet(
-            alpha = space['alpha'], l1_ratio=space['l1_ratio'],
-            max_iter = int(space['max_iter']), warm_start=space['warm_start'])
+            alpha=space['alpha'], l1_ratio=space['l1_ratio'],
+            max_iter=int(space['max_iter']), warm_start=space['warm_start'])
 
         # Fit model to training data
         freq_reg.fit(train[0], train[1])
@@ -124,8 +124,8 @@ def elastic_net_OLS(train, valid, test):
 
     # Build final Linear Regression Model
     freq_reg = ElasticNet(
-        alpha = space['alpha'], l1_ratio=space['l1_ratio'],
-        max_iter = int(space['max_iter']), warm_start=space['warm_start'])
+        alpha=space['alpha'], l1_ratio=space['l1_ratio'],
+        max_iter=int(space['max_iter']), warm_start=space['warm_start'])
 
     # Fit model to training data
     freq_reg.fit(train[0], train[1])
@@ -245,7 +245,7 @@ def bayesian_random_forest(train, valid, test):
 
     def objective(space):
         # Set up Bayesian Random Forest Algorithm
-        bayes_rf = RandomForestRegressor(n_estimators = int(space['n_estimators']),
+        bayes_rf = RandomForestRegressor(n_estimators=int(space['n_estimators']),
                                          max_depth=int(space['max_depth']), bootstrap=2,
                                          min_samples_split=int(space['min_samples_split']),
                                          min_samples_leaf=int(space['min_samples_leaf']),
