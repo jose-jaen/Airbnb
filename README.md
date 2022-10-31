@@ -20,6 +20,7 @@ Deadline: 01/2023 [Working project]
 Update:
 
 - Added Bayesian Inference (hypothesis testing)
+- Added Artificial Neural Network code
 - Included Bayesian Neural Network code
 
 To be added:
@@ -27,4 +28,3 @@ To be added:
 - Document of the paper explaining results
 - Performance comparison of data imputing algorithms
 - Bayesian Linear Regression results (posterior distribution of weights)
-- Artificial Neural Network code
