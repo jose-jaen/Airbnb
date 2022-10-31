@@ -1,10 +1,106 @@
 # Required libraries
+import tensorflow as tf
+from keras.layers.core import Dense
+from keras.models import Sequential
+from keras import callbacks
+from keras.utils import np_utils
+from tensorflow.keras import initializers
+from tensorflow.keras import regularizers
+from tensorflow.keras import optimizers
+from tensorflow.keras.layers import InputLayer, Dense
+from tensorflow.keras.metrics import RootMeanSquaredError
+from hyperas import optim
+from hyperopt import Trials, STATUS_OK, tpe
+from hyperas.distributions import uniform, quniform
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
 from blitz.modules import BayesianLinear
 from blitz.utils import variational_estimator
+from sklearn.preprocessing import StandardScaler
+
+
+def nn_data():
+    """ Data providing function for hyperopt.
+    Separated from modeling function to avoid reloading data each evaluation
+
+    - Output:
+        - Training, validation and testing data
+    """
+    datos = pd.read_csv('sas_model.csv')
+
+    y_train = datos.loc[:, 'price'][datos['partition'] == 1]
+    y_valid = datos.loc[:, 'price'][datos['partition'] == 2]
+    y_test = datos.loc[:, 'price'][datos['partition'] == 3]
+
+    X_train = datos[datos['partition'] == 1]
+    X_train = X_train.drop(['partition', 'price'], axis=1)
+    X_valid = datos[datos['partition'] == 2]
+    X_valid = X_valid.drop(['partition', 'price'], axis=1)
+    X_test = datos[datos['partition'] == 3]
+    X_test = X_test.drop(['partition', 'price'], axis=1)
+
+    # Scaler is fit only to training data to avoid information leakage
+    scaler = StandardScaler()
+    scaler.fit(X_train)
+    x_train = scaler.transform(X_train)
+    x_valid = scaler.transform(X_valid)
+    x_test = scaler.transform(X_test)
+    return x_train, y_train, x_valid, y_valid, x_test, y_test
+
+def neural_network(x_train, y_train, x_valid, y_valid):
+    """ Builds an Artificial Neural Network
+
+    - Parameters:
+        - x_train = Train feature matrix
+        - y_train = Train target vector
+        - x_valid = Validation feature matrix
+        - y_valid = Validation target vector
+
+    - Output:
+        - val_loss = Root Mean Squared Error on validation data
+        - STATUS_OK = Modeling status
+        - model = Fitted ANN to training data
+    """
+    # Define layer weight initializer
+    initial = initializers.HeNormal(seed=42)
+
+    # Select optimizer to reduce loss
+    optimizer = optimizers.Nadam(learning_rate=0.01,
+                                 beta_1=0.9, beta_2=0.999, epsilon=1e-07, name='Nadam')
+
+    # Define ANN architecture
+    model = Sequential()
+
+    # Set uniform distribution for neurons and regularization terms
+    model.add(Dense({{quniform(64, 80, 1)}}, input_shape=(x_train.shape[1],),
+                    activation='elu', kernel_initializer=initial))
+    model.add(Dense({{quniform(200, 256, 1)}}, activation='elu',
+                    kernel_regularizer=regularizers.l1_l2(l1={{uniform(0.01, 0.2)}},
+                                                          l2={{uniform(0.01, 0.07)}})))
+    model.add(Dense({{quniform(200, 300, 1)}}, activation='elu',
+                    kernel_regularizer=regularizers.l1_l2(l1={{uniform(0.01, 0.2)}},
+                                                          l2={{uniform(0.01, 0.07)}})))
+    model.add(Dense({{quniform(128, 256, 1)}}, activation='elu',
+                    kernel_regularizer=regularizers.l1_l2(l1={{uniform(0.01, 0.3)}},
+                                                          l2={{uniform(0.01, 0.3)}})))
+
+    # Output layer with linear activation
+    model.add(Dense(1, activation='linear'))
+
+    # Compile model to reduce RMSE
+    model.compile(loss='mean_squared_error', optimizer=optimizer,
+                  metrics=[RootMeanSquaredError()])
+
+    # Store model results, choose batch size and epochs
+    result = model.fit(x_train, y_train, verbose=2,
+                       epochs=200, batch_size=int({{quniform(54, 60, 1)}}),
+                       validation_data=(x_valid, y_valid))
+
+    # Store evaluation metric
+    val_loss = np.amin(result.history['val_loss'])
+    return {'loss': val_loss, 'status': STATUS_OK, 'model': model}
 
 
 def BNN(train, valid, test):
