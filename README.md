@@ -12,12 +12,19 @@ Quantitative Economics Bachelor Thesis in which Machine Learning and Deep Learni
 
 - [Machine Learning modeling](https://github.com/jose-jaen/Airbnb/blob/main/Functions/ml_models.py)
 
+- [Deep Learning modeling](https://github.com/jose-jaen/Airbnb/blob/main/Functions/dl_models.py)
+
 
 Deadline: 01/2023 [Working project]
+
+Update:
+
+- Added Bayesian Inference (hypothesis testing)
+- Included Bayesian Neural Network code
 
 To be added:
 
 - Document of the paper explaining results
-- Bayesian Inference (hypothesis testing)
+- Performance comparison of data imputing algorithms
 - Bayesian Linear Regression results (posterior distribution of weights)
-- Deep Learning modeling (Artificial Neural Network + Bayesian Neural Network)
+- Artificial Neural Network code
