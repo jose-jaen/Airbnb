@@ -3,6 +3,7 @@ from general_functions import *
 from cv_functions import *
 from nlp_functions import *
 from ml_models import *
+from dl_models import *
 
 # Retrieving data using our defined function
 reviews = read_url('http://data.insideairbnb.com/united-states/ca/los-angeles/2022-06-06/data/reviews.csv.gz')
@@ -420,3 +421,18 @@ print('---------------')
 data_gain.nlargest(40, columns="score").plot(kind='barh', figsize=(20, 10))
 print('---------------')
 data_weight.nlargest(40, columns="score").plot(kind='barh', figsize=(20, 10))
+
+# Retrieve results from Artificial Neural Network
+if __name__ == '__main__':
+    best_run, best_model = optim.minimize(model=neural_network,
+                                          data=nn_data, algo=tpe.suggest,
+                                          max_evals=5, trials=Trials())
+
+    # Unbiased estimate of best model performance
+    X_train, y_train, X_valid, y_valid, X_test, y_test = nn_data()
+    print('Evalutation of best performing model:')
+    print(best_model.evaluate(X_valid, y_valid))
+    print('Best performing model chosen hyper-parameters:')
+    print(best_run)
+    print('Evalutation of best performing model for test set:')
+    print(best_model.evaluate(X_test, y_test))
