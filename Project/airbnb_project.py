@@ -253,6 +253,72 @@ del categorical
 # Remove gender from CV model
 listings = listings.drop('cv_gender', axis=1)
 
+# Hypothesis testing for median price difference between genders
+# Fit distributions to prices set by women
+female_price = listings['price'][listings['nlp_gender'] == 0].values
+f = Fitter(female_price,
+           distributions=['gamma', 'lognorm', 'beta',
+                          'burr', 'norm'])
+f.fit()
+print(f.summary())
+
+# Get parameters from best fit
+params = f.get_best(method='bic')
+
+# Scale female prices according to distribution parameters
+scaled_price_fem = (female_price - params['burr']['loc'])/params['burr']['scale']
+
+# Get posterior value for alpha
+alpha_post_fem = 0.001 + len(female_price)
+
+# Get posterior value for beta
+beta_post_fem = 0.001 + \
+                np.sum(np.log(1 + scaled_price_fem**-params['burr']['c']))
+
+# Fit distributions to prices set by men
+male_price = listings['price'][listings['nlp_gender'] == 1].values
+f = Fitter(male_price,
+           distributions=['gamma', 'lognorm', 'beta',
+                          'burr', 'norm'])
+f.fit()
+print(f.summary())
+
+# Get parameters from best fit
+params = f.get_best(method='bic')
+
+# Scale price according to distribution parameters
+scaled_price_male = (male_price - params['burr']['loc'])/params['burr']['scale']
+
+# Get posterior value for alpha
+alpha_post_male = 0.001 + len(male_price)
+
+# Get posterior value for beta
+beta_post_male = 0.001 + \
+                 np.sum(np.log(1 + scaled_price_male**-params['burr']['c']))
+
+# Sampling from posterior distributions
+results = []
+for i in range(300):
+    female = pareto.rvs(alpha_post_fem, loc=0, scale=beta_post_fem, 
+                        size=1000, random_state=i)/beta_post_fem
+
+    male = pareto.rvs(alpha_post_male, loc=0, scale=beta_post_male, 
+                        size=1000, random_state=i)/beta_post_male
+    
+    medians = np.median(np.exp(female)) - np.median(np.exp(male))
+    results.append(medians)
+
+# Check if females charge less than males (median value)
+bias = [1 if i >= 0 else 0 for i in results]
+res = np.sum(bias)/len(bias)
+print(res)
+
+# Define some tolerance for higher prices and check again
+bias = [1 if i >= np.median(results) else 0 for i in results]
+res = np.sum(bias)/len(bias)
+print(res)
+
+# Machine Learning and Deep Learning modeling
 # Split target variable from feature data matrix
 y = listings['price']
 X = listings.loc[:, listings.columns != 'price']
