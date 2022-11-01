@@ -28,19 +28,6 @@ def nn_data():
     - Output:
         - Training, validation and testing data
     """
-    datos = pd.read_csv('sas_model.csv')
-
-    y_train = datos.loc[:, 'price'][datos['partition'] == 1]
-    y_valid = datos.loc[:, 'price'][datos['partition'] == 2]
-    y_test = datos.loc[:, 'price'][datos['partition'] == 3]
-
-    X_train = datos[datos['partition'] == 1]
-    X_train = X_train.drop(['partition', 'price'], axis=1)
-    X_valid = datos[datos['partition'] == 2]
-    X_valid = X_valid.drop(['partition', 'price'], axis=1)
-    X_test = datos[datos['partition'] == 3]
-    X_test = X_test.drop(['partition', 'price'], axis=1)
-
     # Scaler is fit only to training data to avoid information leakage
     scaler = StandardScaler()
     scaler.fit(X_train)
