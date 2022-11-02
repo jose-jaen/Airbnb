@@ -136,15 +136,18 @@ def gower(X1, X2, X3):
     # Distance Matrix for continuous variables
     S_inv = np.linalg.inv(np.cov(X1.T, bias=False))
     M = pairwise_distances(X1, metric='mahalanobis', n_jobs=-1, VI=S_inv)
-    M = M/vgeom(M)
+    M2 = np.multiply(M, M)
+    M = M/vgeom(M2)
 
     # Distance Matrix for binary variables
     J = cdist(X2, X2, 'jaccard')
+    J2 = np.multiply(J, J)
     J = J/vgeom(J)
 
     # Distance Matrix for categorical variables
     C = cdist(X3, X3, 'hamming')
-    C = C/vgeom(C)
+    C2 = np.multiply(C, C)
+    C = C/vgeom(C2)
 
     # Gower Distance Matrix
     D = M + J + C
