@@ -197,7 +197,7 @@ def KNN_Imputer(feature, target, k):
 
     # In case some neighbors were also missing, perform iterative imputation
     if any(feature.isna().sum() > 0):
-    imp = IterativeImputer(estimator = BayesianRidge(), 
+    imp = IterativeImputer(estimator=BayesianRidge(), 
                            max_iter=25, random_state=42)
         imp.fit(feature)
         feature = imp.transform(feature)
