@@ -2,7 +2,7 @@
 
 Quantitative Economics Bachelor Thesis in which Machine Learning and Deep Learning algorithms are used to accurately predict Airbnb rental prices.
 
-- [Complete Project](https://github.com/jose-jaen/Airbnb/blob/main/Project/airbnb_project.py)
+- [Project Code](https://github.com/jose-jaen/Airbnb/blob/main/Project/airbnb_project.py)
 
 - [Feature Engineering & Data Cleaning](https://github.com/jose-jaen/Airbnb/blob/main/Functions/general_functions.py)
 
