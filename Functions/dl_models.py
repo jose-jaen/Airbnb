@@ -63,6 +63,7 @@ def neural_network(x_train, y_train, x_valid, y_valid):
     # Set uniform distribution for neurons and regularization terms
     model.add(Dense({{quniform(64, 80, 1)}}, input_shape=(x_train.shape[1],),
                     activation='elu', kernel_initializer=initial))
+    
     model.add(Dense({{quniform(200, 256, 1)}}, activation='elu',
                     kernel_regularizer=regularizers.l1_l2(l1={{uniform(0.01, 0.2)}},
                                                           l2={{uniform(0.01, 0.07)}})))
