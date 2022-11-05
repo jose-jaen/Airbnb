@@ -16,14 +16,14 @@ Quantitative Economics Bachelor Thesis in which Machine Learning and Deep Learni
 
 Deadline: 01/2023 [Working project]
 
-Update:
+Recent Updates:
 
 - Added Bayesian Inference (hypothesis testing)
 - Added Artificial Neural Network code (tensorflow + hyperas)
 - Included Bayesian Neural Network code (pytorch + blitz)
+- Bayesian Linear Regression results (posterior distribution of weights)
 
 To be added:
 
 - Paper explaining results
 - Performance comparison of data imputing algorithms
-- Bayesian Linear Regression results (posterior distribution of weights)
