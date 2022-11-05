@@ -356,6 +356,41 @@ print(intercept)
 print('---------------')
 print(coefs)
 
+# Define top features
+top_features = ['bathrooms', 'beds', 'bedrooms', 'property',
+                'accommodates', 'bbq', 'hot_tub', 'beachfront'
+                'calculated_host_listings_count_shared_rooms',
+                'calculated_host_listings_count_private_rooms',
+                'host_since', 'geo_x', 'geo_y', 'geo_z',
+                'availability_365', 'neighborhood_group',
+                'first_review', 'last_review', 'host_listings_count',
+                'reviews_month']
+
+# Create dataset for reduced model sampling
+train_top = X_train.loc[:, top_features]
+
+# Retrieve posterior distribution of weights
+complete_trace, reduced_trace = posterior_weights(train, train_top)
+
+# Get credibe intervals
+coefs_complete = az.summary(complete_trace, kind='stats')
+print(coefs_complete)
+
+coefs_reduced = az.summary(reduced_trace, kind='stats')
+print(coefs_reduced)
+
+# Plot posterior distributions
+az.plot_posterior(complete_trace, hdi_prob=0.95)
+az.plot_posterior(reduced_trace, hdi_prob=0.95)
+
+# Compare Bayesian models
+compare_dict = {
+    "full_model": complete_trace, 
+    "restricted_model": reduced_trace
+    }
+
+print(az.compare(compare_dict, scale = 'deviance'))
+
 # Retrieve results from Elastic Net Regularized Linear Regression
 rmse, hyperparams, intercept, coefs= elastic_net_OLS(train, valid, test)
 print('---------------')
