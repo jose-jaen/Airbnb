@@ -1,5 +1,8 @@
 # Load required libraries
+import pymc3 as pm
+import arviz as az
 import xgboost as xgb
+from types import LambdaType
 from sklearn.linear_model import BayesianRidge
 from sklearn.linear_model import ElasticNet
 from sklearn.ensemble import RandomForestRegressor
@@ -72,6 +75,53 @@ def bayesian_regression(train, valid, test):
     coefs = bayes_reg.coef_
     return rmse, hyperparams, intercept, coefs
 
+
+def posterior_weights(train, train_top):
+    """ Samples posterior distribution of Bayesian Linear Regression
+    
+    - Parameters:
+        - train = Complete training dataset
+        - train_top = Training dataset with top 20 relevant features
+        
+    - Output:
+        - trace_complete = Posterior distribution of weights (complete)
+        - trace_reduced = Posterior distribution of weights (reduced)
+    """
+    # Obtain posterior distribution for complete model
+    with pm.Model() as regression:
+        # Define prior distributions
+        precision = pm.Gamma('precision', alpha=0.0139, beta=7.9963)
+        intercept = pm.Normal('intercept', mu=0, sd=1/precision)
+        beta = pm.Normal('beta', mu=0, sd=1/precision, shape=train[0].shape[1])
+        epsilon = pm.Gamma('epsilon', alpha=6.0225, beta=1.5251)
+        
+        # Linear Regression Weights 
+        mu = intercept + pm.math.dot(train[0], beta)
+        
+        # Feature variable
+        y_hat = pm.Normal('y_hat', mu=mu, sd=1/epsilon, observed=train[1].values)
+        
+        # Sample posterior distribution
+        trace_complete = pm.sample(draws=2000,tune=1000, cores=5)
+        
+    # Obtain posterior distribution for reduced model
+    with pm.Model() as regression:
+        # Define prior distributions
+        precision = pm.Gamma('precision', alpha=0.0139, beta=7.9963)
+        intercept = pm.Normal('intercept', mu=0, sd=1/precision)
+        beta = pm.Normal('beta', mu=0, sd=1/precision, shape=train_top[0].shape[1])
+        epsilon = pm.Gamma('epsilon', alpha=6.0225, beta=1.5251)
+        
+        # Linear Regression Weights 
+        mu = intercept + pm.math.dot(train_top[0], beta)
+        
+        # Feature variable
+        y_hat = pm.Normal('y_hat', mu=mu, sd=1/epsilon, observed=train_top[1].values)
+        
+        # Sample posterior distribution
+        trace_reduced = pm.sample(draws=2000,tune=1000, cores=5)
+     return trace_complete, trace_reduced
+        
 
 def elastic_net_OLS(train, valid, test):
     """ Estimates a Linear Regression Model with OLS (Elastic Net regularization)
