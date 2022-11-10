@@ -12,6 +12,8 @@ Combining custom functions, transfer learning and Open Source AI frameworks such
 
 A Bayesian perspective is taken to perform hypothesis testing, statistical inference, hyperparameter tuning and data modeling.
 
+- [Thesis Document](https://github.com/jose-jaen/Airbnb/blob/main/Project/Thesis.pdf)
+
 - [Project Code](https://github.com/jose-jaen/Airbnb/blob/main/Project/airbnb_project.py)
 
 - [Feature Engineering & Data Cleaning](https://github.com/jose-jaen/Airbnb/blob/main/Functions/general_functions.py)
@@ -34,8 +36,8 @@ Recent Updates:
 - Added Artificial Neural Network code (Tensorflow + hyperas)
 - Included Bayesian Neural Network code (Pytorch + blitz)
 - Bayesian Linear Regression results (posterior distribution of weights)
+- Uploaded bachelor thesis document (subject to updates, still unfinished)
 
 To be added:
 
-- Paper explaining results
 - Performance comparison of data imputing algorithms
