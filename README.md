@@ -2,7 +2,7 @@
 
 Looking for a fair-priced Airbnb listing to book? Are you a real estate firm or Airbnb host seeking to set competitive prices?
 
-Artificial Intelligence is surely the best way to go! :robot:
+Artificial Intelligence is surely the way to go! :robot:
 
 In this Quantitative Economics Bachelor Thesis, Machine Learning and Deep Learning algorithms are used to accurately predict Airbnb rental prices.
 
