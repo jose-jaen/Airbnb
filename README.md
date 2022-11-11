@@ -10,7 +10,7 @@ Two datasets for Los Angeles city are retrieved from [Inside Airbnb](http://insi
 
 Combining custom functions, transfer learning and Open Source AI frameworks such as scikit-learn, Tensorflow and Pytorch, several AI models are built to help economic agents make informed decisions.
 
-A Bayesian perspective is taken to perform hypothesis testing, statistical inference, hyperparameter tuning and data modeling.
+A Bayesian perspective is taken to perform statistical inference, hyperparameter tuning and data modeling.
 
 - [Thesis Document](https://github.com/jose-jaen/Airbnb/blob/main/Project/Thesis.pdf)
 
