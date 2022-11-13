@@ -41,3 +41,4 @@ Recent Updates:
 To be added:
 
 - Performance comparison of data imputing algorithms
+- Model deployment
