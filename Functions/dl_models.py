@@ -1,4 +1,4 @@
-# Required libraries
+# Required packages
 import tensorflow as tf
 from keras.layers.core import Dense
 from keras.models import Sequential
@@ -26,7 +26,7 @@ def nn_data():
     Separated from modeling function to avoid reloading data each evaluation
 
     - Output:
-        - Training, validation and testing data
+        - Scaled training, validation and test data
     """
     # Scaler is fit only to training data to avoid information leakage
     scaler = StandardScaler()
