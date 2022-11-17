@@ -1,9 +1,9 @@
 # Load required libraries and custom functions
-from general_functions import *
-from cv_functions import *
-from nlp_functions import *
 from ml_models import *
 from dl_models import *
+from cv_functions import *
+from nlp_functions import *
+from general_functions import *
 
 # Retrieving data using our defined function
 reviews = read_url('http://data.insideairbnb.com/united-states/ca/los-angeles/2022-06-06/data/reviews.csv.gz')
@@ -60,7 +60,7 @@ for i in ['host_response_rate', 'host_acceptance_rate']:
     rate = [int(j) for j in rate]
     listings[i] = rate
 
-# One-hot encoding of several features
+# One-hot encoding several features
 features = [
     'has_availability', 'instant_bookable', 'host_has_profile_pic',
     'host_is_superhost', 'host_identity_verified'
@@ -120,9 +120,6 @@ one_hot_encoder('luggage', listings, 'amenities', 'luggage dropoff')
 one_hot_encoder('furniture', listings, 'amenities', 'outdoor furniture')
 one_hot_encoder('greets', listings, 'amenities', 'host greets')
 
-# Deleting auxiliary variables
-del price, groups, rate, features, lat, lon
-
 # Get hosts' gender
 # Predict gender with CV Model
 cv_data = cv_model(listings)
@@ -154,7 +151,7 @@ listings['nlp_gender'] = listings['cv_gender']
 # Multiple hosts encoding
 listings['cv_gender'] = listings['cv_gender'].replace(np.nan, 2)
 
-# Replacing manually some hosts' gender
+# Manually replacing some hosts' gender
 idx = []
 female = [
     'Abrianna', 'Brinda', 'Denisse', 'Tytyana', 'Susian', 'Diba',
@@ -171,10 +168,8 @@ listings['cv_gender'] = listings['cv_gender'].replace(['unknown', 'andy'], [5, 5
 mode = stats.mode(listings['cv_gender'])[0][0]
 listings['cv_gender'] = listings['cv_gender'].replace(5, mode)
 listings['cv_gender'] = listings['cv_gender'].astype('category')
-del mode
 
 # Define NLP column for later use
-
 names = listings['host_name']
 ids = listings[listings['cv_gender'] != 2].index.tolist()
 listings.loc[ids, 'nlp_gender'] = [d.get_gender(names[i]) for i in ids]
@@ -190,23 +185,21 @@ listings['nlp_gender'] = listings['nlp_gender'].replace(['unknown', 'andy'], [5,
 mode = stats.mode(listings['nlp_gender'])[0][0]
 listings['nlp_gender'] = listings['nlp_gender'].replace(['unknown', 'andy'], [mode, mode])
 listings['nlp_gender'] = listings['nlp_gender'].astype('category')
-del ids, idx, mode
 
 # Reading reviews and ditching out non-latin symbols 
 reviews['comments'] = only_latin(reviews['comments'])
 langs = [classify(i)[0] for i in reviews['comments']]
 ids = [j for j in range(len(langs)) if langs[j] != 'en']
-reviews = reviews.drop(labels = ids, axis = 0)
-reviews = reviews.reset_index(drop = True)
-del langs, ids
+reviews = reviews.drop(labels=ids, axis=0)
+reviews = reviews.reset_index(drop=True)
 
 # Predict sentiment
 reviews['sentiment'] = [sentiment_vader(clean_text(i)) for i in reviews['comments']]
 
 # Average sentiment for each listing
-sent_avg = reviews.groupby('listing_id', as_index = False)['sentiment'].mean()
-sent_median = reviews.groupby('listing_id', as_index = False)['sentiment'].median()
-sent_mode = reviews.groupby('listing_id', as_index = False)['sentiment'].agg(
+sent_avg = reviews.groupby('listing_id', as_index=False)['sentiment'].mean()
+sent_median = reviews.groupby('listing_id', as_index=False)['sentiment'].median()
+sent_mode = reviews.groupby('listing_id', as_index=False)['sentiment'].agg(
     lambda x: x.value_counts().index[0])
 
 # Set up columns for later SQL join
@@ -215,10 +208,9 @@ sent_median.columns = ['id', 'sent_median']
 sent_mode.columns = ['id', 'sent_mode']
 
 # Add average, median and mode sentiment to original dataset
-listings = listings.merge(sent_median, on = 'id', how = 'left')
-listings = listings.merge(sent_avg, on = 'id', how = 'left')
-listings = listings.merge(sent_mode, on = 'id', how = 'left')
-del sent_avg, sent_median, sent_mode
+listings = listings.merge(sent_median, on='id', how='left')
+listings = listings.merge(sent_avg, on='id', how='left')
+listings = listings.merge(sent_mode, on='id', how='left')
 
 # Encode mode
 listings['sent_mode'] = listings['sent_mode'].astype('category')
@@ -249,7 +241,6 @@ categorical = [
 
 for i in categorical:
     listings[i] = listings[i].astype('category')
-del categorical
 
 # Remove gender from CV model
 listings = listings.drop('cv_gender', axis=1)
@@ -264,6 +255,8 @@ f.fit()
 print(f.summary())
 
 # Get parameters from best fit
+params = f.get_best(method='sumsquare_error')
+params = f.get_best(method='aic')
 params = f.get_best(method='bic')
 
 # Scale female prices according to distribution parameters
@@ -285,6 +278,8 @@ f.fit()
 print(f.summary())
 
 # Get parameters from best fit
+params = f.get_best(method='sumsquare_error')
+params = f.get_best(method='aic')
 params = f.get_best(method='bic')
 
 # Scale price according to distribution parameters
@@ -340,13 +335,17 @@ X_train = KNN_Imputer(X_train, y_train, k=6)
 X_valid = KNN_Imputer(X_valid, y_valid, k=6)
 X_test = KNN_Imputer(X_test, y_test, k=6)
 
+# Correctly encode categorical features
+for i in categorical:
+    listings[i] = listings[i].astype('category')
+
 # Stack features and target
 train = [X_train, y_train]
 valid = [X_valid, y_valid]
 test = [X_test, y_test]
 
 # Retrieve results from Bayesian Ridge Regression
-rmse, hyperparams, intercept, coefs= bayesian_regression(train, valid, test)
+rmse, hyperparams, intercept, coefs = bayesian_regression(train, valid, test)
 print('---------------')
 print(rmse)
 print('---------------')
@@ -364,7 +363,8 @@ top_features = ['bathrooms', 'beds', 'bedrooms', 'property',
                 'host_since', 'geo_x', 'geo_y', 'geo_z',
                 'availability_365', 'neighborhood_group',
                 'first_review', 'last_review', 'host_listings_count',
-                'reviews_month']
+                'reviews_month'
+               ]
 
 # Create dataset for reduced model sampling
 train_top = X_train.loc[:, top_features]
@@ -389,10 +389,10 @@ compare_dict = {
     "restricted_model": reduced_trace
     }
 
-print(az.compare(compare_dict, scale = 'deviance'))
+print(az.compare(compare_dict, scale='deviance'))
 
 # Retrieve results from Elastic Net Regularized Linear Regression
-rmse, hyperparams, intercept, coefs= elastic_net_OLS(train, valid, test)
+rmse, hyperparams, intercept, coefs = elastic_net_OLS(train, valid, test)
 print('---------------')
 print(rmse)
 print('---------------')
@@ -446,17 +446,6 @@ print(feat_num)
 print('---------------')
 print(feat_names)
 
-# Retrieve results from XGBoost and feature importance plots
-rmse, hyper, data_gain, data_weight = XGBoost(train, valid, test)
-print('---------------')
-print(rmse)
-print('---------------')
-print(hyper)
-print('---------------')
-data_gain.nlargest(40, columns="score").plot(kind='barh', figsize=(20, 10))
-print('---------------')
-data_weight.nlargest(40, columns="score").plot(kind='barh', figsize=(20, 10))
-
 # Retrieve results from Artificial Neural Network
 if __name__ == '__main__':
     best_run, best_model = optim.minimize(model=neural_network,
@@ -471,3 +460,17 @@ if __name__ == '__main__':
     print(best_run)
     print('Evalutation of best performing model for test set:')
     print(best_model.evaluate(X_test, y_test))
+    
+# Retrieve results from Bayesian Neural Network
+rmse = BNN(train, valid, test)
+    
+# Retrieve results from XGBoost and feature importance plots
+rmse, hyper, data_gain, data_weight = XGBoost(train, valid, test)
+print('---------------')
+print(rmse)
+print('---------------')
+print(hyper)
+print('---------------')
+data_gain.nlargest(40, columns='score').plot(kind='barh', figsize=(20, 10))
+print('---------------')
+data_weight.nlargest(40, columns='score').plot(kind='barh', figsize=(20, 10))
