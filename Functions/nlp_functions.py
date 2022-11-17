@@ -38,7 +38,7 @@ def lang_identifier(x, text):
         - English comments
     """
     non_english = [i for i in range(len(x[text])) if classify(x[text][i])[0] != 'en']
-    data = x.drop(labels = non_english, axis = 0)
+    data = x.drop(labels=non_english, axis=0)
     return data
 
 
@@ -51,15 +51,26 @@ def clean_text(text):
     - Output:
         - Cleansed comments
     """
+    # Remove stopwords
     stop = stopwords.words('english')
     stemmer = PorterStemmer()
+    
+    # Eliminate punctuation
     exclude = set(',.:;')
     text = ''.join([(ch if ch not in exclude else ' ') for ch in text])  
+    
+    # Regex to ignore urls and special symbols
     text = re.sub(r"(@\[A-Za-z0-9]+)|([^0-9A-Za-z \t])|(\w+:\/\/\S+)|^rt|http.+?", "", text)
+    
+    # Replace certain words
     text = text.replace('&', 'and')
     text = ' '.join([word for word in text.split() if word not in stop])
     text = BeautifulSoup(text, 'lxml').text
+    
+    # Force to lowcase
     text = text.lower()
+    
+    # Delete some characters
     text = text.replace('\r<br/>', ' ')
     text = text.replace('  ', ' ')
     text = text.replace('/', ' ')
@@ -71,7 +82,7 @@ def clean_text(text):
 
 
 def sentiment_vader(sentence):
-    """ Performs Sentiment Analysis with pre-trained NLP model.
+    """ Performs Sentiment Analysis with a pre-trained NLP model.
     Some rules are manually defined so as to increase accuracy
 
     - Parameters:
@@ -140,7 +151,7 @@ def sentiment_vader(sentence):
     # Vector with sentiments
     sent_vec = [negative, neutral, positive]
 
-    # Threshold for sentiment analysis
+    # Thresholds for sentiment analysis
     # Positive sentiment for high scoring comments
     if sentiment_dict['compound'] >= 0.05:
         overall_sentiment = 1
