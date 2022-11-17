@@ -12,7 +12,7 @@ def cv_model(data):
     - Output:
         - CV Model gender prediction dataset
     """
-    # Conditions for multiple hosts for the same listing or hosts with no picture
+    # Conditions for multiple hosts (couples/firms) or hosts with no picture
     cond1 = data['host_has_profile_pic'] == 1
     cond2 = ~data['host_name'].str.contains('&')
     cond3 = ~data['host_name'].str.contains('Or ', case=True)
@@ -37,9 +37,8 @@ def cv_model(data):
             host_pic = get_file('host' + str(i) + '.jpg', links[i])
             result = DeepFace.analyze(host_pic, actions=['gender'], enforce_detection=False)
             cv_data['cv_gender'][i] = result['gender']
-            print(i)
         except:
-            # Hosts that removed their profile picture are passed through a NLP Model
+            # Hosts with no profile picture are passed through an NLP Model
             cv_data['cv_gender'][i] = 0
             continue
     return cv_data
