@@ -63,8 +63,8 @@ def calculate_days(x, y):
     res = []
     y = y.replace(np.nan, x[0])
     for i in range(len(y)):
-        d1 = datetime.datetime.strptime(y[i], "%Y-%m-%d")
-        d2 = datetime.datetime.strptime(x[i], "%Y-%m-%d")
+        d1 = datetime.datetime.strptime(y[i], '%Y-%m-%d')
+        d2 = datetime.datetime.strptime(x[i], '%Y-%m-%d')
         delta = d2 - d1
         res.append(delta.days)
     return res
