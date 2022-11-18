@@ -119,7 +119,8 @@ def BNN(train, valid, test):
             super().__init__()
             self.blinear1 = BayesianLinear(input_dim, 124)
             self.blinear2 = BayesianLinear(124, 75)
-            self.blinear3 = BayesianLinear(75, output_dim)
+            self.blinear3 = BayesianLinear(75, 75)
+            self.blinear4 = BayesianLinear(75, output_dim)
 
         def forward(self, x):
             # Compute output Tensors with ReLU activation function
@@ -127,7 +128,9 @@ def BNN(train, valid, test):
             x_ = F.relu(x_)
             x_ = self.blinear2(x_)
             x_ = F.relu(x_)
-            return self.blinear3(x_)
+            x_ = self.blinear3
+            x_ = F.relu(x_)
+            return self.blinear4(x_)
 
     def evaluate_regression(regressor, X, y, samples=100, std_multiplier=2):
         # Compute credible intervals for predictions
