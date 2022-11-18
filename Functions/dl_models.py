@@ -128,7 +128,7 @@ def BNN(train, valid, test):
             x_ = F.relu(x_)
             x_ = self.blinear2(x_)
             x_ = F.relu(x_)
-            x_ = self.blinear3
+            x_ = self.blinear3(x_)
             x_ = F.relu(x_)
             return self.blinear4(x_)
 
