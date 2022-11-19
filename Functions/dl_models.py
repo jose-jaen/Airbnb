@@ -118,8 +118,8 @@ def BNN(train, valid, test):
         def __init__(self, input_dim, output_dim):
             super().__init__()
             self.blinear1 = BayesianLinear(input_dim, 124)
-            self.blinear2 = BayesianLinear(124, 75)
-            self.blinear3 = BayesianLinear(75, 75)
+            self.blinear2 = BayesianLinear(124, 124)
+            self.blinear3 = BayesianLinear(124, 75)
             self.blinear4 = BayesianLinear(75, output_dim)
 
         def forward(self, x):
