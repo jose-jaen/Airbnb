@@ -61,16 +61,21 @@ def neural_network(x_train, y_train, x_valid, y_valid):
     model = Sequential()
 
     # Set uniform distribution for neurons and regularization terms
-    model.add(Dense({{quniform(64, 80, 1)}}, input_shape=(x_train.shape[1],),
+    model.add(Dense({{quniform(120, 200, 1)}}, input_shape=(x_train.shape[1],),
                     activation='elu', kernel_initializer=initial))
     
-    model.add(Dense({{quniform(200, 256, 1)}}, activation='elu',
+    model.add(Dense({{quniform(950, 1050, 1)}}, activation='elu',
                     kernel_regularizer=regularizers.l1_l2(l1={{uniform(0.01, 0.2)}},
                                                           l2={{uniform(0.01, 0.07)}})))
-    model.add(Dense({{quniform(200, 300, 1)}}, activation='elu',
+    
+    model.add(Dense({{quniform(950, 1050, 1)}}, activation='elu',
                     kernel_regularizer=regularizers.l1_l2(l1={{uniform(0.01, 0.2)}},
                                                           l2={{uniform(0.01, 0.07)}})))
-    model.add(Dense({{quniform(128, 256, 1)}}, activation='elu',
+    
+    model.add(Dense({{quniform(950, 1050, 1)}}, activation='elu'))
+                   
+    
+    model.add(Dense({{quniform(180, 290, 1)}}, activation='elu',
                     kernel_regularizer=regularizers.l1_l2(l1={{uniform(0.01, 0.3)}},
                                                           l2={{uniform(0.01, 0.3)}})))
 
