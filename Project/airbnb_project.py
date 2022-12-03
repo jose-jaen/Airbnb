@@ -465,7 +465,7 @@ if __name__ == '__main__':
 rmse = BNN(train, valid, test)
     
 # Retrieve results from XGBoost and feature importance plots
-rmse, hyper, data_gain, data_weight = XGBoost(train, valid, test)
+model, rmse, hyper, data_gain, data_weight = XGBoost(train, valid, test)
 print('---------------')
 print(rmse)
 print('---------------')
@@ -474,3 +474,26 @@ print('---------------')
 data_gain.nlargest(40, columns='score').plot(kind='barh', figsize=(20, 10))
 print('---------------')
 data_weight.nlargest(40, columns='score').plot(kind='barh', figsize=(20, 10))
+
+# XAI methods to interpret XGBoost outputs
+# SHAP values and plots for Global Interpretability
+shap_values = XAI_SHAP(model, test[0], 'global')
+
+# SHAP values and plots for Local Interpretability
+shap_values = XAI_SHAP(model, test[0], 'local', 10)
+shap_values = XAI_SHAP(model, test[0], 'local', 11)
+shap_values = XAI_SHAP(model, test[0], 'local', 12)
+
+# LIME plots for Local Interpretability
+lime_plot = XAI_LIME(model, test[0], 5)
+
+# PDP and ICE plots for Global and Local interpretability
+XAI_PDP_ICE(model, test[0], 2, 5, ice=False)
+XAI_PDP_ICE(model, test[0], 11, 12, ice=False)
+XAI_PDP_ICE(model, test[0], 27, 28, ice=False)
+XAI_PDP_ICE(model, test[0], 2, 5, ice=True)
+XAI_PDP_ICE(model, test[0], 8, 9, ice=True)
+XAI_PDP_ICE(model, test[0], 11, 12, ice=True)
+XAI_PDP_ICE(model, test[0], 16, 17, ice=True)
+XAI_PDP_ICE(model, test[0], 71, 72, ice=True)
+XAI_PDP_ICE(model, test[0], 27, 28, ice=True)
