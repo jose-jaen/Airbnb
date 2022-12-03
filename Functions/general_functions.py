@@ -285,7 +285,6 @@ def XAI_SHAP(model, data, graph, obs):
         
         # Global Interpretability (impact on target variable)
         shap.summary_plot(shap_values, data, max_display=20)
-    
     else:
         # Local Interpretability (coefficients)
         shap.plots.bar(shap_values[obs], max_display=20)
