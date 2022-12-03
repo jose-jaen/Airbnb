@@ -16,7 +16,7 @@ A Bayesian perspective is taken to perform statistical inference, hyperparameter
 
 - [Project Code](https://github.com/jose-jaen/Airbnb/blob/main/Project/airbnb_project.py)
 
-- [Feature Engineering & Data Cleaning](https://github.com/jose-jaen/Airbnb/blob/main/Functions/general_functions.py)
+- [Data Cleaning, Feature Engineering & XAI](https://github.com/jose-jaen/Airbnb/blob/main/Functions/general_functions.py)
 
 - [Computer Vision algorithms](https://github.com/jose-jaen/Airbnb/blob/main/Functions/cv_functions.py)
 
