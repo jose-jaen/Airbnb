@@ -1,8 +1,11 @@
 # Required packages
 import io
+import shap
 import random
 import requests
 import datetime
+import lime
+import lime.lime_tabular
 from dateutil.relativedelta import relativedelta
 import numpy as np
 import pandas as pd
@@ -14,6 +17,7 @@ from sklearn.metrics import pairwise_distances
 from sklearn.model_selection import train_test_split
 from sklearn.experimental import enable_iterative_imputer
 from sklearn.impute import IterativeImputer 
+from sklearn.inspection import PartialDependenceDisplay
 
 
 def read_url(link):
@@ -254,3 +258,85 @@ def Iterative_Imputer(feature, target, model):
         feature = pd.DataFrame(feature, columns=cols)
         feature = feature.drop('target', axis=1)
     return feature, target
+
+
+def XAI_SHAP(model, data, graph, obs):
+    """ Computes SHAP values and represents XAI graphs
+
+    - Parameters:
+        - model = Machine Learning model to interpret
+        - data = Data used to make explanations
+        - graph = Global or local interpretation
+        - obs = Index of data instance to explain
+
+    - Output:
+        - XAI graphs and SHAP values
+    """
+    # Print JavaScript visualizations
+    shap.initjs()
+
+    # Create object to calculate SHAP values
+    explainer = shap.Explainer(model)
+    shap_values = explainer(data)
+    
+    if graph == 'global':
+        # Global Interpretability (feature importance)
+        shap.plots.bar(shap_values, max_display=20)
+        
+        # Global Interpretability (impact on target variable)
+        shap.summary_plot(shap_values, data, max_display=20)
+    
+    else:
+        # Local Interpretability (coefficients)
+        shap.plots.bar(shap_values[obs], max_display=20)
+        shap.plots.waterfall(shap_values[obs], max_display=20)
+
+        # Local Interpretability (force plots)
+        shap.plots.force(shap_values[obs])
+    return shap_values
+
+
+def XAI_LIME(model, data, obs):
+    """ Represents LIME plot
+
+    - Parameters:
+        - model = Machine Learning model to interpret
+        - data = Data used to make explanations
+        - observation = Number of listing to explain
+
+    - Output:
+        - LIME plot
+    """
+    explainer = lime.lime_tabular.LimeTabularExplainer(data.values,
+                                                       feature_names=data.columns.values.tolist(),
+                                                       verbose=True, mode='regression')
+
+    # Explain the selected listing observation
+    exp = explainer.explain_instance(data.values[obs], model.predict, num_features=20)
+
+    # Show the predictions
+    return exp.show_in_notebook(show_table=True)
+
+
+def XAI_PDP_ICE(model, data, var1, var2, ice: bool):
+    """ Represents PDP and ICE plots
+
+    - Parameters:
+        - model = Machine Learning model to interpret
+        - data = Data used to make explanations
+        - var1 = Index of first feature to explain
+        - var2 = Index of second feature to explain
+        - ICE = Whether to include ICE plots
+
+    - Output:
+        - PDP and ICE plots
+    """
+    # Create vector for feature comparison
+    features = [var1, var2, (var1, var2)]
+
+    # Check if user asks only for PDP plots
+    if ice:
+        PartialDependenceDisplay.from_estimator(model, data,
+                                                features, kind=['both', 'both', 'average'])
+    else:
+        PartialDependenceDisplay.from_estimator(model, data, features)
