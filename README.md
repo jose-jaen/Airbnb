@@ -12,21 +12,23 @@ Combining custom functions, transfer learning and Open Source AI frameworks such
 
 A Bayesian perspective is taken to perform statistical inference, hyperparameter tuning and data modeling.
 
+Additionally, XAI methods are used to overcome the black box problem of AI models.
+
 - [Thesis Document](https://github.com/jose-jaen/Airbnb/blob/main/Project/Thesis.pdf)
 
 - [Project Code](https://github.com/jose-jaen/Airbnb/blob/main/Project/airbnb_project.py)
 
 - [Data Cleaning, Feature Engineering & XAI](https://github.com/jose-jaen/Airbnb/blob/main/Functions/general_functions.py)
 
-- [Computer Vision algorithms](https://github.com/jose-jaen/Airbnb/blob/main/Functions/cv_functions.py)
-
 - [NLP algorithms](https://github.com/jose-jaen/Airbnb/blob/main/Functions/nlp_functions.py)
 
-- [Bayesian Random Forest adaption](https://github.com/jose-jaen/Airbnb/blob/main/Functions/_forest.py)
+- [Computer Vision algorithms](https://github.com/jose-jaen/Airbnb/blob/main/Functions/cv_functions.py)
 
 - [Machine Learning modeling](https://github.com/jose-jaen/Airbnb/blob/main/Functions/ml_models.py)
 
 - [Deep Learning modeling](https://github.com/jose-jaen/Airbnb/blob/main/Functions/dl_models.py)
+
+- [Bayesian Random Forest adaption](https://github.com/jose-jaen/Airbnb/blob/main/Functions/_forest.py)
 
 Deadline: January 2023 [Working project]
 
