@@ -589,8 +589,8 @@ def XGBoost(train, valid, test):
     xgb_reg.fit(train[0], train[1], eval_set=evaluation, verbose=False)
 
     # Make predictions on test data for unbiased performance estimate
-    pred = xgb_reg.predict(X_test)
-    rmse = mean_squared_error(y_test, pred, squared=False)
+    pred = xgb_reg.predict(test[0])
+    rmse = mean_squared_error(test[1], pred, squared=False)
     # Retrieve feature importance data to understand split decisions
     gain_score = xgb_reg.get_booster().get_score(importance_type='gain')
     weight_score = xgb_reg.get_booster().get_score(importance_type='weight')
@@ -600,4 +600,4 @@ def XGBoost(train, valid, test):
                              columns=["score"]).sort_values(by="score", ascending=False)
     data_weight = pd.DataFrame(data=vals_weight, index=keys_weight,
                                columns=["score"]).sort_values(by="score", ascending=False)
-    return rmse, hyperparams, data_gain, data_weight
+    return xgb_reg, rmse, hyperparams, data_gain, data_weight
