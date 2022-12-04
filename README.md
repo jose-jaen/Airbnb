@@ -42,6 +42,5 @@ Recent Updates:
 
 To be added:
 
-- XGBoost algorithm explanation + XAI (eXplainable Artifitial Intelligence).
-- Performance comparison of data imputing algorithms
+- eXplainable Artifitial Intelligence (XAI) methods
 - Model deployment
