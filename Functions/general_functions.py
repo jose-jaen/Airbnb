@@ -291,7 +291,10 @@ def imputer_performance(data, imputer):
     else:
         imputed_data = Iterative_Imputer(imputer_data, data[1], model='forest')
         imputed_data = imputed_data[0]
-    return imputed_data
+        
+    performance = original_data.loc[3000:,random_cols].subtract(
+        imputed_data.loc[3000:,random_cols]).sum()
+    return performance
 
 
 def XAI_SHAP(model, data, graph, obs):
