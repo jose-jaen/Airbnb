@@ -340,7 +340,9 @@ knn_imputer = imputer_performance(test, 'knn')
 bayes_imputer = imputer_performance(test, 'forest')
 forest_imputer = imputer_performance(test, 'forest')
 
-print(np.arg.min(knn_imputer, bayes_imputer, forest_imputer))
+print((abs(knn_imputer) > abs(bayes_imputer)).sum())
+print((abs(knn_imputer) > abs(forest_imputer)).sum())
+print((abs(forest_imputer) > abs(bayes_imputer)).sum())
 
 # Impute data with best perfoming algorithm
 X_train = KNN_Imputer(X_train, y_train, k=6)
