@@ -13,6 +13,7 @@ from scipy import stats
 from fitter import Fitter
 from scipy.stats import pareto
 from scipy.spatial.distance import cdist
+from numpy.random import default_rng
 from sklearn.metrics import pairwise_distances
 from sklearn.model_selection import train_test_split
 from sklearn.experimental import enable_iterative_imputer
@@ -258,6 +259,39 @@ def Iterative_Imputer(feature, target, model):
         feature = pd.DataFrame(feature, columns=cols)
         feature = feature.drop('target', axis=1)
     return feature, target
+
+def imputer_performance(data, imputer):
+    """ Imputes data for algorithmic performance comparison
+    
+    - Parameters:
+        - data = Original dataset to perform imputation
+        - imputer = Data imputation algorithm
+    
+    - Output:
+        - imputed_data = Final dataset with non-missing values
+    """
+    # Remove columns with missing values
+    missing_cols = data[0].columns[data.isnull().any()]
+    imputer_data = data[0].drop(missing_cols, axis=1)
+
+    # Make a copy for later comparison
+    original_data = imputer_data.copy()
+
+    # Randomly introduce missing values
+    rng = default_rng()
+    random_cols = rng.choice(imputer_data.columns, size=10, replace=False)
+    imputer_data.loc[3000:, random_cols] = np.nan
+
+    # Impute data with different algorithms
+    if imputer == 'knn':
+        imputed_data = KNN_Imputer(imputer_data, data[1], k=6)
+    elif imputer == 'bayes':
+        imputed_data = Iterative_Imputer(imputer_data, data[1], model='bayesian')
+        imputed_data = imputed_data[0]
+    else:
+        imputed_data = Iterative_Imputer(imputer_data, data[1], model='forest')
+        imputed_data = imputed_data[0]
+    return imputed_data
 
 
 def XAI_SHAP(model, data, graph, obs):
