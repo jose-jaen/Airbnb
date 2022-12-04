@@ -330,16 +330,30 @@ X_train, X_valid, y_train, y_valid = train_test_split(
 X_train, X_valid, X_test = new_id(X_train), new_id(X_valid), new_id(X_test)
 y_train, y_valid, y_test = new_id(y_train), new_id(y_valid), new_id(y_test)
 
-# Impute data
+# Stack features and target
+train = [X_train, y_train]
+valid = [X_valid, y_valid]
+test = [X_test, y_test]
+
+# Check best data imputation algorithm
+knn_imputer = imputer_performance(test, 'knn')
+bayes_imputer = imputer_performance(test, 'forest')
+forest_imputer = imputer_performance(test, 'forest')
+
+print(np.arg.min(knn_imputer, bayes_imputer, forest_imputer))
+
+# Impute data with best perfoming algorithm
 X_train = KNN_Imputer(X_train, y_train, k=6)
 X_valid = KNN_Imputer(X_valid, y_valid, k=6)
 X_test = KNN_Imputer(X_test, y_test, k=6)
 
 # Correctly encode categorical features
 for i in categorical:
-    listings[i] = listings[i].astype('category')
+    X_train[i] = X_train[i].astype('category')
+    X_valid[i] = X_valid[i].astype('category')
+    X_test[i] = X_test[i].astype('category')
 
-# Stack features and target
+# Stack final features and target
 train = [X_train, y_train]
 valid = [X_valid, y_valid]
 test = [X_test, y_test]
