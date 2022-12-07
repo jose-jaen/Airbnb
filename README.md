@@ -54,6 +54,8 @@ Note that TPE algorithm (Bayesian Optimization) was used to select the best perf
 
 - [Bayesian Random Forest adaption](https://github.com/jose-jaen/Airbnb/blob/main/Functions/_forest.py)
 
+# Recent and future updates
+
 Deadline: January 2023 [Working project]
 
 Recent Updates:
