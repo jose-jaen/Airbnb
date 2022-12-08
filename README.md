@@ -16,7 +16,7 @@ Additionally, XAI methods are used to overcome the black box problem of AI model
 
 # Bachelor Thesis Document
 
-Click on the link below to access the Thesis explaining all Machine Learning, XAI and Statistical Inference explanations. 
+Click on the link below to access the Thesis explaining all Machine Learning, XAI and Statistical Inference operations. 
 
 - [Thesis Document](https://github.com/jose-jaen/Airbnb/blob/main/Project/Thesis.pdf)
 
