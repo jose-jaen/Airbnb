@@ -22,7 +22,7 @@ Click on the link below to access the Thesis explaining all Machine Learning, XA
 
 # General Code
 
-Since Python code has been divided into multiples files, the one below was used by joining all programmed functions into a single file.
+Since Python code has been divided into multiples files, the one below combined all the programmed functions for retrieving relevant results.
 
 - [Project Code](https://github.com/jose-jaen/Airbnb/blob/main/Project/airbnb_project.py)
 
