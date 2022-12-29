@@ -70,8 +70,10 @@ Recent Updates:
 - Included Bayesian Neural Network code (Pytorch + blitz)
 - Bayesian Linear Regression results (posterior distribution of weights)
 - Uploaded bachelor thesis document (subject to updates, still unfinished)
+- eXplainable Artifitial Intelligence (XAI) methods
 
 To be added:
 
-- eXplainable Artifitial Intelligence (XAI) methods
+- Pseudo-code of ANN, BNN, XGBoost
+- Updated list of tables & firues and appendix
 - Model deployment
