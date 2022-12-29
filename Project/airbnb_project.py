@@ -500,9 +500,6 @@ shap_values = XAI_SHAP(model, test[0], 'local', 10)
 shap_values = XAI_SHAP(model, test[0], 'local', 11)
 shap_values = XAI_SHAP(model, test[0], 'local', 12)
 
-# LIME plots for Local Interpretability
-lime_plot = XAI_LIME(model, test[0], 5)
-
 # PDP and ICE plots for Global and Local interpretability
 XAI_PDP_ICE(model, test[0], 2, 5, ice=False)
 XAI_PDP_ICE(model, test[0], 11, 12, ice=False)
