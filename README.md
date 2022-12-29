@@ -75,5 +75,5 @@ Recent Updates:
 To be added:
 
 - Pseudo-code of ANN, BNN, XGBoost
-- Updated list of tables & firues and appendix
+- Updated list of tables & figures and appendix
 - Model deployment
