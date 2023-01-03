@@ -1,5 +1,4 @@
 # Airbnb Price Prediction :house:
-[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://jose-jaen-airbnb-deploymentapp-raoe1i.streamlit.app)
 
 Looking for a fair-priced Airbnb listing to book? Are you a real estate firm or Airbnb host seeking to set competitive prices?
 
@@ -60,6 +59,11 @@ Note that TPE algorithm (Bayesian Optimization) was used to select the best perf
 
 - [Bayesian Random Forest adaption](https://github.com/jose-jaen/Airbnb/blob/main/Functions/_forest.py)
 
+# Price Prediction App
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://jose-jaen-airbnb-deploymentapp-raoe1i.streamlit.app)
+
+Click on the icon above to acces the Airbnb Price Prediction App!
+
 # Recent and future updates
 
 Deadline: January 2023 [Working project]
@@ -72,9 +76,9 @@ Recent Updates:
 - Bayesian Linear Regression results (posterior distribution of weights)
 - Uploaded bachelor thesis document (subject to updates, still unfinished)
 - eXplainable Artifitial Intelligence (XAI) methods
+- Model deployment using Streamlit
 
 To be added:
 
 - Pseudo-code of ANN, BNN, XGBoost
 - Updated list of tables & figures and appendix
-- Model deployment
