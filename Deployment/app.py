@@ -89,104 +89,103 @@ with col3:
 
 st.markdown('---')
 
-# One-hot encoding amenities
-options = ['TV', 'Wifi', 'Netflix', 'Swimming pool', 'Hot tub', 'Gym', 'Elevator',
-           'Fridge', 'Heating', 'Air Conditioning', 'Hair dryer', 'BBQ', 'Oven',
-           'Security cameras', 'Workspace', 'Coffee maker', 'Backyard',
-           'Outdoor dining', 'Host greeting', 'Beachfront', 'Patio',
-           'Luggage dropoff', 'Furniture']
-
-amens = [1 if i in amenities else 0 for i in options]
-tv, wifi, netflix, pool = amens[0], amens[1], amens[2], amens[3]
-tub, gym, elevator, fridge = amens[4], amens[5], amens[6], amens[7]
-heat, air, hair, bbq = amens[8], amens[9], amens[10], amens[11]
-oven, cams, workspace, coffee = amens[12], amens[13], amens[14], amens[15]
-backyard, outdoor, greet, beach = amens[16], amens[17], amens[18], amens[19]
-patio, luggage, furniture = amens[20], amens[21], amens[22]
-
-# One-hot encoding binary features
-dec = 1 if dec == 'Yes' else 0
-super_host = 1 if super_host == 'Yes' else 0
-pic = 1 if pic == 'Yes' else 0
-verified = 1 if verified == 'Yes' else 0
-availability = 1 if availability == 'Yes' else 0
-instant = 1 if instant == 'Yes' else 0
-gender = 1 if gender == 'Yes' else 0
-no_review = 0 if no_review == 'Yes' else 1
-
-# Encode room_type feature
-rooms = {
-    'Private room': 1,
-    'Entire home/apt': 2,
-    'Shared room': 3,
-    'Hotel room': 4
-}
-room_type = rooms.get(room_type)
-
-# Encode response_time feature
-responses = {
-    'Within an hour': 1,
-    'Within a few hours': 2,
-    'Within a day': 3,
-    'Within a few days': 4
-}
-response = responses.get(response)
-
-# Set up feature matrix for predictions
-X_test = pd.DataFrame(data=np.column_stack((
-    dec, 2049.8854292157043, response,
-    76.63240972415284, 71.26407808976616, super_host,
-    69.13628641151577, pic, verified,
-    room_type, accommodates, bathrooms, bedrooms, beds,
-    min_nights, 601.9025422419918,
-    27.160806845210516,
-    332469.8321718717, availability,
-    9.72158897846971, 40.25490377783956,
-    179.52868130849782, 36.1675779198715,
-    9.827263460290983,
-    0.9183887807741019, 827.2542241991783,
-    238.09884780526983, 4.678916998733513,
-    accuracy, clean, checkin, communication, location, value,
-    instant, 18.311988385382882,
-    14.542180211904983, 3.329502980879128,
-    0.3858462298829271, 0,
-    114, 0,
-    1.1963299663299665, 1,
-    -0.35596108151187583, -0.7283118417599816, 0.5242905694820023,
-    17, tv, netflix, gym, elevator, fridge,
-    heat, hair, air, tub, oven, bbq, cams, workspace, coffee, backyard,
-    outdoor, greet, pool, beach, patio, luggage, furniture,
-    gender, 0.9643530102245699, 0.9029613928046442,
-    0.9650943687640935, no_review)),
-    columns=['description', 'host_since', 'host_response_time', 'host_response_rate',
-       'host_acceptance_rate', 'host_is_superhost', 'host_listings_count',
-       'host_has_profile_pic', 'host_identity_verified', 'room_type',
-       'accommodates', 'bathrooms', 'bedrooms', 'beds', 'minimum_nights',
-       'maximum_nights', 'minimum_nights_avg_ntm', 'maximum_nights_avg_ntm',
-       'has_availability', 'availability_30', 'availability_90',
-       'availability_365', 'number_of_reviews', 'number_of_reviews_ltm',
-       'number_of_reviews_l30d', 'first_review', 'last_review',
-       'review_scores_rating', 'review_scores_accuracy',
-       'review_scores_cleanliness', 'review_scores_checkin',
-       'review_scores_communication', 'review_scores_location',
-       'review_scores_value', 'instant_bookable',
-       'calculated_host_listings_count', 'calculated_entire',
-       'calculated_private', 'calculated_shared', 'neighborhood',
-       'neighborhood_group', 'inactive', 'reviews_month', 'responds', 'geo_x',
-       'geo_y', 'geo_z', 'property', 'tv', 'netflix', 'gym', 'elevator',
-       'fridge', 'heating', 'hair_dryer', 'air_conditioning', 'hot_tub',
-       'oven', 'bbq', 'security cameras', 'workspace', 'coffee', 'backyard',
-       'outdoor_dining', 'greets', 'pool', 'beachfront', 'patio', 'luggage',
-       'furniture', 'nlp_gender', 'sent_median', 'sent_mean', 'sent_mode',
-       'no_review'])
-
 # Center model prediction button
 col1, col2, col3 = st.columns(3)
 with col1:
     st.write(' ')
 with col2:
     run_preds = st.button('Run the model')
-    if run_preds:
+    if run_preds:    
+        # One-hot encoding amenities
+        options = ['TV', 'Wifi', 'Netflix', 'Swimming pool', 'Hot tub', 'Gym', 'Elevator',
+                   'Fridge', 'Heating', 'Air Conditioning', 'Hair dryer', 'BBQ', 'Oven',
+                   'Security cameras', 'Workspace', 'Coffee maker', 'Backyard',
+                   'Outdoor dining', 'Host greeting', 'Beachfront', 'Patio',
+                   'Luggage dropoff', 'Furniture']
+
+        amens = [1 if i in amenities else 0 for i in options]
+        tv, wifi, netflix, pool = amens[0], amens[1], amens[2], amens[3]
+        tub, gym, elevator, fridge = amens[4], amens[5], amens[6], amens[7]
+        heat, air, hair, bbq = amens[8], amens[9], amens[10], amens[11]
+        oven, cams, workspace, coffee = amens[12], amens[13], amens[14], amens[15]
+        backyard, outdoor, greet, beach = amens[16], amens[17], amens[18], amens[19]
+        patio, luggage, furniture = amens[20], amens[21], amens[22]
+
+        # One-hot encoding binary features
+        dec = 1 if dec == 'Yes' else 0
+        super_host = 1 if super_host == 'Yes' else 0
+        pic = 1 if pic == 'Yes' else 0
+        verified = 1 if verified == 'Yes' else 0
+        availability = 1 if availability == 'Yes' else 0
+        instant = 1 if instant == 'Yes' else 0
+        gender = 1 if gender == 'Yes' else 0
+        no_review = 0 if no_review == 'Yes' else 1
+
+        # Encode room_type feature
+        rooms = {
+            'Private room': 1,
+            'Entire home/apt': 2,
+            'Shared room': 3,
+            'Hotel room': 4
+        }
+        room_type = rooms.get(room_type)
+
+        # Encode response_time feature
+        responses = {
+            'Within an hour': 1,
+            'Within a few hours': 2,
+            'Within a day': 3,
+            'Within a few days': 4
+        }
+        response = responses.get(response)
+
+        # Set up feature matrix for predictions
+        X_test = pd.DataFrame(data=np.column_stack((
+            dec, 2049.8854292157043, response,
+            76.63240972415284, 71.26407808976616, super_host,
+            69.13628641151577, pic, verified,
+            room_type, accommodates, bathrooms, bedrooms, beds,
+            min_nights, 601.9025422419918,
+            27.160806845210516,
+            332469.8321718717, availability,
+            9.72158897846971, 40.25490377783956,
+            179.52868130849782, 36.1675779198715,
+            9.827263460290983,
+            0.9183887807741019, 827.2542241991783,
+            238.09884780526983, 4.678916998733513,
+            accuracy, clean, checkin, communication, location, value,
+            instant, 18.311988385382882,
+            14.542180211904983, 3.329502980879128,
+            0.3858462298829271, 0,
+            114, 0,
+            1.1963299663299665, 1,
+            -0.35596108151187583, -0.7283118417599816, 0.5242905694820023,
+            17, tv, netflix, gym, elevator, fridge,
+            heat, hair, air, tub, oven, bbq, cams, workspace, coffee, backyard,
+            outdoor, greet, pool, beach, patio, luggage, furniture,
+            gender, 0.9643530102245699, 0.9029613928046442,
+            0.9650943687640935, no_review)),
+            columns=['description', 'host_since', 'host_response_time', 'host_response_rate',
+               'host_acceptance_rate', 'host_is_superhost', 'host_listings_count',
+               'host_has_profile_pic', 'host_identity_verified', 'room_type',
+               'accommodates', 'bathrooms', 'bedrooms', 'beds', 'minimum_nights',
+               'maximum_nights', 'minimum_nights_avg_ntm', 'maximum_nights_avg_ntm',
+               'has_availability', 'availability_30', 'availability_90',
+               'availability_365', 'number_of_reviews', 'number_of_reviews_ltm',
+               'number_of_reviews_l30d', 'first_review', 'last_review',
+               'review_scores_rating', 'review_scores_accuracy',
+               'review_scores_cleanliness', 'review_scores_checkin',
+               'review_scores_communication', 'review_scores_location',
+               'review_scores_value', 'instant_bookable',
+               'calculated_host_listings_count', 'calculated_entire',
+               'calculated_private', 'calculated_shared', 'neighborhood',
+               'neighborhood_group', 'inactive', 'reviews_month', 'responds', 'geo_x',
+               'geo_y', 'geo_z', 'property', 'tv', 'netflix', 'gym', 'elevator',
+               'fridge', 'heating', 'hair_dryer', 'air_conditioning', 'hot_tub',
+               'oven', 'bbq', 'security cameras', 'workspace', 'coffee', 'backyard',
+               'outdoor_dining', 'greets', 'pool', 'beachfront', 'patio', 'luggage',
+               'furniture', 'nlp_gender', 'sent_median', 'sent_mean', 'sent_mode',
+               'no_review'])
         st.info(f"Predicted price is ${round(exp(xgb_model.predict(X_test)), 2)}")
 with col3:
     st.write(' ')
