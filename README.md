@@ -1,4 +1,5 @@
 # Airbnb Price Prediction :house:
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://jose-jaen-airbnb-deploymentapp-raoe1i.streamlit.app)
 
 Looking for a fair-priced Airbnb listing to book? Are you a real estate firm or Airbnb host seeking to set competitive prices?
 
