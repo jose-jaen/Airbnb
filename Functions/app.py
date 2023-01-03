@@ -90,6 +90,7 @@ with col3:
 
 st.markdown('---')
 
+# One-hot encoding amenities
 options = ['TV', 'Wifi', 'Netflix', 'Swimming pool', 'Hot tub', 'Gym', 'Elevator',
            'Fridge', 'Heating', 'Air Conditioning', 'Hair dryer', 'BBQ', 'Oven',
            'Security cameras', 'Workspace', 'Coffee maker', 'Backyard',
@@ -104,7 +105,7 @@ oven, cams, workspace, coffee = amens[12], amens[13], amens[14], amens[15]
 backyard, outdoor, greet, beach = amens[16], amens[17], amens[18], amens[19]
 patio, luggage, furniture = amens[20], amens[21], amens[22]
 
-
+# One-hot encoding binary features
 dec = 1 if dec == 'Yes' else 0
 super_host = 1 if super_host == 'Yes' else 0
 pic = 1 if pic == 'Yes' else 0
@@ -114,24 +115,25 @@ instant = 1 if instant == 'Yes' else 0
 gender = 1 if gender == 'Yes' else 0
 no_review = 0 if no_review == 'Yes' else 1
 
+# Encode room_type feature
 rooms = {
     'Private room': 1,
     'Entire home/apt': 2,
     'Shared room': 3,
     'Hotel room': 4
 }
-
 room_type = rooms.get(room_type)
 
+# Encode response_time feature
 responses = {
     'Within an hour': 1,
     'Within a few hours': 2,
     'Within a day': 3,
     'Within a few days': 4
 }
-print(stats.mode(data['neighborhood']))
 response = responses.get(response)
 
+# Set up feature matrix for predictions
 X_test = pd.DataFrame(data=np.column_stack((
     dec, np.mean(data['host_since']), response,
     np.mean(data['host_response_rate']), np.mean(data['host_acceptance_rate']), super_host,
@@ -159,7 +161,7 @@ X_test = pd.DataFrame(data=np.column_stack((
     np.mean(data['sent_mode']), no_review)),
     columns=data.columns)
 
-
+# Center model prediction button
 col1, col2, col3 = st.columns(3)
 with col1:
     st.write(' ')
@@ -169,46 +171,3 @@ with col2:
         st.info(f"Predicted price is ${round(exp(xgb_model.predict(X_test)), 2)}")
 with col3:
     st.write(' ')
-
-
-
-# with st.container():
-#     # This section handles uploading our data file.
-#     upload_title = st.subheader('or upload CSV file!')
-#
-#     input_file = st.file_uploader("Input data must be ordered")
-#     if input_file is not None:
-#         with open(input_file.name, mode='wb') as f:
-#             f.write(input_file.getbuffer())
-#
-#     # A horizontal rule and then the section that launches predictions
-#     # using the loaded data.
-#     st.markdown("---")
-#
-#     run_title = st.subheader('Run The Model')
-#     run_describe = st.caption(run_markdown)
-#
-#     if input_file:
-#         # Note that the run button doesn't show up until the input file is seen.
-#         run_requested = st.button("Make Predictions")
-#
-#         # The next code block cannot be seen until the run button is clicked.
-#         if run_requested:
-#             # Loading X_test values from the CSV
-#             # We pretend that these are new features
-#             X_test = pd.read_csv(input_file.name)
-#
-#             # Make the predictions.
-#             Y_pred = xgb_model.predict(X_test)
-#
-#             # Provide more info.
-#             st.info(f"Prediction is ${round(exp(Y_pred[3]), 2)}")
-#
-#             # I don't want my end users files filling up my server.
-#             # Once the model predictions are made, I remove the input file.
-#             os.remove(input_file.name)
-#
-#             # Create the output file showing the inputs and their respective outputs.
-#             out_data = Y_pred
-#             df = pd.DataFrame(out_data)
-#             df.to_csv(out_file_name)
