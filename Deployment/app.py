@@ -9,10 +9,8 @@ from io import BytesIO
 import requests
 
 # Load AI model
-with st.spinner('Downloading AI model, please wait'):
-    model_link = 'https://github.com/jose-jaen/Airbnb/blob/main/Deployment/xgb_reg.pkl?raw=true'
-    mfile = BytesIO(requests.get(model_link).content)
-    xgb_model = pickle.load(mfile)
+with open('xgb_reg.pkl', 'rb') as f:
+    xgb_model = pickle.load(f)
 
 # Include Airbnb logo to website and center it
 url = 'https://companieslogo.com/img/orig/ABNB_BIG-9ccc2025.png?t=1633511992'
@@ -141,51 +139,24 @@ with col2:
 
         # Set up feature matrix for predictions
         X_test = pd.DataFrame(data=np.column_stack((
-            dec, 2049.8854292157043, response,
-            76.63240972415284, 71.26407808976616, super_host,
-            69.13628641151577, pic, verified,
-            room_type, accommodates, bathrooms, bedrooms, beds,
-            min_nights, 601.9025422419918,
-            27.160806845210516,
-            332469.8321718717, availability,
-            9.72158897846971, 40.25490377783956,
-            179.52868130849782, 36.1675779198715,
-            9.827263460290983,
-            0.9183887807741019, 827.2542241991783,
-            238.09884780526983, 4.678916998733513,
-            accuracy, clean, checkin, communication, location, value,
-            instant, 18.311988385382882,
-            14.542180211904983, 3.329502980879128,
-            0.3858462298829271, 0,
-            114, 0,
-            1.1963299663299665, 1,
-            -0.35596108151187583, -0.7283118417599816, 0.5242905694820023,
-            17, tv, netflix, gym, elevator, fridge,
-            heat, hair, air, tub, oven, bbq, cams, workspace, coffee, backyard,
-            outdoor, greet, pool, beach, patio, luggage, furniture,
-            gender, 0.9643530102245699, 0.9029613928046442,
-            0.9650943687640935, no_review)),
-            columns=['description', 'host_since', 'host_response_time', 'host_response_rate',
-               'host_acceptance_rate', 'host_is_superhost', 'host_listings_count',
-               'host_has_profile_pic', 'host_identity_verified', 'room_type',
-               'accommodates', 'bathrooms', 'bedrooms', 'beds', 'minimum_nights',
-               'maximum_nights', 'minimum_nights_avg_ntm', 'maximum_nights_avg_ntm',
-               'has_availability', 'availability_30', 'availability_90',
-               'availability_365', 'number_of_reviews', 'number_of_reviews_ltm',
-               'number_of_reviews_l30d', 'first_review', 'last_review',
-               'review_scores_rating', 'review_scores_accuracy',
-               'review_scores_cleanliness', 'review_scores_checkin',
-               'review_scores_communication', 'review_scores_location',
-               'review_scores_value', 'instant_bookable',
-               'calculated_host_listings_count', 'calculated_entire',
-               'calculated_private', 'calculated_shared', 'neighborhood',
-               'neighborhood_group', 'inactive', 'reviews_month', 'responds', 'geo_x',
-               'geo_y', 'geo_z', 'property', 'tv', 'netflix', 'gym', 'elevator',
-               'fridge', 'heating', 'hair_dryer', 'air_conditioning', 'hot_tub',
-               'oven', 'bbq', 'security cameras', 'workspace', 'coffee', 'backyard',
-               'outdoor_dining', 'greets', 'pool', 'beachfront', 'patio', 'luggage',
-               'furniture', 'nlp_gender', 'sent_median', 'sent_mean', 'sent_mode',
-               'no_review'])
+            dec, 2049.8854, response, 76.6324, 
+            71.2640, super_host, 69.1362, pic, verified,
+            room_type, accommodates, bathrooms, 
+            bedrooms, beds, min_nights, 601.9025,
+            27.1608, 332469.8321, availability,
+            9.7215, 40.2549, 179.5286, 36.1675,
+            9.8272, 0.9183, 827.2542, 238.0988, 
+            4.6789, accuracy, clean, checkin, 
+            communication, location, value,
+            instant, 18.3119, 14.5421, 3.3295,
+            0.3858, 0, 114, 0, 1.1963, 1,
+            -0.3559, -0.7283, 0.5242, 17, 
+            tv, netflix, gym, elevator, fridge,
+            heat, hair, air, tub, oven, bbq, cams, 
+            workspace, coffee, backyard, outdoor, 
+            greet, pool, beach, patio, luggage, furniture,
+            gender, 0.9643, 0.9029, 0.9650, no_review)))
+        
         st.info(f"Predicted price is ${round(exp(xgb_model.predict(X_test)), 2)}")
 with col3:
     st.write(' ')
