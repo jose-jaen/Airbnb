@@ -153,7 +153,7 @@ with col3:
    
 st.markdown('---')
 st.subheader('About')
-st.markdown('This a non-profit Data Science project unaffiliated with Airbnb.')
+st.markdown('This a Data Science project unaffiliated with Airbnb.')
 st.markdown('Note that the predicted price is the amount hosts charge **per night**!')
 st.markdown('Prediction accuracy is limited to listings in **Los Angeles** from **summer 2022**')
 thesis = "https://share.streamlit.io/mesmith027/streamlit_webapps/main/MC_pi/streamlit_app.py"
