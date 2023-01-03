@@ -118,7 +118,6 @@ one_hot_encoder('beachfront', listings, 'amenities', 'beach view')
 one_hot_encoder('patio', listings, 'amenities', 'balcony')
 one_hot_encoder('luggage', listings, 'amenities', 'luggage dropoff')
 one_hot_encoder('furniture', listings, 'amenities', 'outdoor furniture')
-one_hot_encoder('greets', listings, 'amenities', 'host greets')
 
 # Get hosts' gender
 # Predict gender with CV Model
