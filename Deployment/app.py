@@ -10,7 +10,7 @@ import requests
 
 # Load AI model
 with st.spinner('Downloading AI model, please wait'):
-    model_link = 'https://github.com/jose-jaen/Airbnb/blob/main/Functions/xgb_reg.pkl?raw=true'
+    model_link = 'https://github.com/jose-jaen/Airbnb/blob/main/Deployment/xgb_reg.pkl?raw=true'
     mfile = BytesIO(requests.get(model_link).content)
     xgb_model = pickle.load(mfile)
 
