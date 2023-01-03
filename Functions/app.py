@@ -8,15 +8,12 @@ from scipy import stats
 from io import BytesIO
 import requests
 
-# Read training data
-data_link = 'https://raw.githubusercontent.com/jose-jaen/Airbnb/main/Functions/train_data.csv'
-data = pd.read_csv(data_link)
-data = data.drop('price', axis=1)
-
 # Load AI model
-model_link = 'https://github.com/jose-jaen/Airbnb/blob/main/Functions/xgb_reg.pkl?raw=true'
-mfile = BytesIO(requests.get(model_link).content)
-xgb_model = pickle.load(mfile)
+with st.spinner('Downloading AI model...'):
+    model_link = 'https://github.com/jose-jaen/Airbnb/blob/main/Functions/xgb_reg.pkl?raw=true'
+    mfile = BytesIO(requests.get(model_link).content)
+    xgb_model = pickle.load(mfile)
+st.success('Done!')
 
 # Include Airbnb logo to website and center it
 url = 'https://companieslogo.com/img/orig/ABNB_BIG-9ccc2025.png?t=1633511992'
@@ -138,31 +135,51 @@ response = responses.get(response)
 
 # Set up feature matrix for predictions
 X_test = pd.DataFrame(data=np.column_stack((
-    dec, np.mean(data['host_since']), response,
-    np.mean(data['host_response_rate']), np.mean(data['host_acceptance_rate']), super_host,
-    np.mean(data['host_listings_count']), pic, verified,
+    dec, 2049.8854292157043, response,
+    76.63240972415284, 71.26407808976616, super_host,
+    69.13628641151577, pic, verified,
     room_type, accommodates, bathrooms, bedrooms, beds,
-    min_nights, np.mean(data['maximum_nights']),
-    np.mean(data['minimum_nights_avg_ntm']),
-    np.mean(data['maximum_nights_avg_ntm']), availability,
-    np.mean(data['availability_30']), np.mean(data['availability_90']),
-    np.mean(data['availability_365']), np.mean(data['number_of_reviews']),
-    np.mean(data['number_of_reviews_ltm']),
-    np.mean(data['number_of_reviews_l30d']), np.mean(data['first_review']),
-    np.mean(data['last_review']), np.mean(data['review_scores_rating']),
+    min_nights, 601.9025422419918,
+    27.160806845210516,
+    332469.8321718717, availability,
+    9.72158897846971, 40.25490377783956,
+    179.52868130849782, 36.1675779198715,
+    9.827263460290983,
+    0.9183887807741019, 827.2542241991783,
+    238.09884780526983, 4.678916998733513,
     accuracy, clean, checkin, communication, location, value,
-    instant, np.mean(data['calculated_host_listings_count']),
-    np.mean(data['calculated_entire']), np.mean(data['calculated_private']),
-    np.mean(data['calculated_shared']), stats.mode(data['neighborhood'])[0][0],
-    stats.mode(data['neighborhood_group'])[0][0], stats.mode(data['inactive'])[0][0],
-    np.mean(data['reviews_month']), stats.mode(data['responds'])[0][0],
-    np.mean(data['geo_x']), np.mean(data['geo_y']), np.mean(data['geo_z']),
-    stats.mode(data['property'])[0][0], tv, netflix, gym, elevator, fridge,
+    instant, 18.311988385382882,
+    14.542180211904983, 3.329502980879128,
+    0.3858462298829271, 0,
+    114, 0,
+    1.1963299663299665, 1,
+    -0.35596108151187583, -0.7283118417599816, 0.5242905694820023,
+    17, tv, netflix, gym, elevator, fridge,
     heat, hair, air, tub, oven, bbq, cams, workspace, coffee, backyard,
     outdoor, greet, pool, beach, patio, luggage, furniture,
-    gender, np.mean(data['sent_median']), np.mean(data['sent_mean']),
-    np.mean(data['sent_mode']), no_review)),
-    columns=data.columns)
+    gender, 0.9643530102245699, 0.9029613928046442,
+    0.9650943687640935, no_review)),
+    columns=['description', 'host_since', 'host_response_time', 'host_response_rate',
+       'host_acceptance_rate', 'host_is_superhost', 'host_listings_count',
+       'host_has_profile_pic', 'host_identity_verified', 'room_type',
+       'accommodates', 'bathrooms', 'bedrooms', 'beds', 'minimum_nights',
+       'maximum_nights', 'minimum_nights_avg_ntm', 'maximum_nights_avg_ntm',
+       'has_availability', 'availability_30', 'availability_90',
+       'availability_365', 'number_of_reviews', 'number_of_reviews_ltm',
+       'number_of_reviews_l30d', 'first_review', 'last_review',
+       'review_scores_rating', 'review_scores_accuracy',
+       'review_scores_cleanliness', 'review_scores_checkin',
+       'review_scores_communication', 'review_scores_location',
+       'review_scores_value', 'instant_bookable',
+       'calculated_host_listings_count', 'calculated_entire',
+       'calculated_private', 'calculated_shared', 'neighborhood',
+       'neighborhood_group', 'inactive', 'reviews_month', 'responds', 'geo_x',
+       'geo_y', 'geo_z', 'property', 'tv', 'netflix', 'gym', 'elevator',
+       'fridge', 'heating', 'hair_dryer', 'air_conditioning', 'hot_tub',
+       'oven', 'bbq', 'security cameras', 'workspace', 'coffee', 'backyard',
+       'outdoor_dining', 'greets', 'pool', 'beachfront', 'patio', 'luggage',
+       'furniture', 'nlp_gender', 'sent_median', 'sent_mean', 'sent_mode',
+       'no_review'])
 
 # Center model prediction button
 col1, col2, col3 = st.columns(3)
