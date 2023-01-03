@@ -5,6 +5,8 @@ import streamlit as st
 import numpy as np
 from math import exp
 from scipy import stats
+from io import BytesIO
+import requests
 
 # Read training data
 data_link = 'https://raw.githubusercontent.com/jose-jaen/Airbnb/main/Functions/train_data.csv'
@@ -12,9 +14,9 @@ data = pd.read_csv(data_link)
 data = data.drop('price', axis=1)
 
 # Load AI model
-model_name = 'https://github.com/jose-jaen/Airbnb/blob/main/Functions/xgb_reg.pkl'
-with open(model_name, 'rb') as f:
-    xgb_model = pickle.load(f)
+model_link = 'https://github.com/jose-jaen/Airbnb/blob/main/Functions/xgb_reg.pkl?raw=true'
+mfile = BytesIO(requests.get(model_link).content)
+xgb_model = pickle.load(mfile)
 
 # Include Airbnb logo to website and center it
 url = 'https://companieslogo.com/img/orig/ABNB_BIG-9ccc2025.png?t=1633511992'
