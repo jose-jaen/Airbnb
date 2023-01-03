@@ -7,7 +7,8 @@ from math import exp
 from scipy import stats
 
 # Read training data
-data = pd.read_csv('train_data.csv')
+data_link = 'https://raw.githubusercontent.com/jose-jaen/Airbnb/main/Functions/train_data.csv'
+data = pd.read_csv(data_link')
 data = data.drop('price', axis=1)
 
 # Load AI model
