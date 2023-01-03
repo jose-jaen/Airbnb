@@ -12,7 +12,7 @@ data = pd.read_csv(data_link')
 data = data.drop('price', axis=1)
 
 # Load AI model
-model_name = 'xgb_reg.pkl'
+model_name = 'https://github.com/jose-jaen/Airbnb/blob/main/Functions/xgb_reg.pkl'
 with open(model_name, 'rb') as f:
     xgb_model = pickle.load(f)
 
