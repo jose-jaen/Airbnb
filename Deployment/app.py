@@ -8,20 +8,6 @@ from scipy import stats
 from io import BytesIO
 import requests
 
-# Load AI model
-with open('Deployment/xgb_reg.pkl', 'rb') as f:
-    xgb_model = pickle.load(f)
-
-# Include Airbnb logo to website and center it
-url = 'https://companieslogo.com/img/orig/ABNB_BIG-9ccc2025.png?t=1633511992'
-col1, col2, col3 = st.columns(3)
-with col1:
-    st.write(' ')
-with col2:
-    st.image(url)
-with col3:
-    st.write(' ')
-
 # Set up header and brief description
 with st.container():
     st.title('Airbnb Prices Predictor')
@@ -94,6 +80,10 @@ with col1:
 with col2:
     run_preds = st.button('Run the model')
     if run_preds:    
+        # Load AI model
+        with open('Deployment/xgb_reg.pkl', 'rb') as f:
+            xgb_model = pickle.load(f)
+            
         # One-hot encoding amenities
         options = ['TV', 'Wifi', 'Netflix', 'Swimming pool', 'Hot tub', 'Gym', 'Elevator',
                    'Fridge', 'Heating', 'Air Conditioning', 'Hair dryer', 'BBQ', 'Oven',
@@ -160,3 +150,13 @@ with col2:
         st.info(f"Predicted price is ${round(exp(xgb_model.predict(X_test)), 2)}")
 with col3:
     st.write(' ')
+   
+st.markdown('---')
+st.subheader('About')
+st.markdown('This a non-profit Data Science project unaffiliated with Airbnb.')
+st.markdown('Note that the predicted price is the amount hosts charge **per night**!')
+st.markdown('Prediction accuracy is limited to listings in **Los Angeles** from **summer 2022**')
+thesis = "https://share.streamlit.io/mesmith027/streamlit_webapps/main/MC_pi/streamlit_app.py"
+st.markdown('Feel free to check the entirety of my Bachelor Thesis [here](%s)' % thesis)
+linkedin = 'https://www.linkedin.com/in/jose-jaen/'
+st.markdown('Reach out to [José Jaén Delgado](%s) for any questions' % linkedin)
