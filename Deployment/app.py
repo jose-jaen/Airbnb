@@ -9,6 +9,7 @@ from io import BytesIO
 import requests
 
 # Load AI model
+pickle.load(open('Deployment/model.pkl', 'rb'))
 with open('xgb_reg.pkl', 'rb') as f:
     xgb_model = pickle.load(f)
 
