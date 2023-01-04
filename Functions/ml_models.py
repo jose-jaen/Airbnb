@@ -597,7 +597,7 @@ def XGBoost(train, valid, test):
     keys_gain, keys_weight = list(gain_score.keys()), list(weight_score.keys())
     vals_gain, vals_weight = list(gain_score.values()), list(weight_score.values())
     data_gain = pd.DataFrame(data=vals_gain, index=keys_gain,
-                             columns=["score"]).sort_values(by="score", ascending=False)
+                             columns=['score']).sort_values(by='score', ascending=False)
     data_weight = pd.DataFrame(data=vals_weight, index=keys_weight,
-                               columns=["score"]).sort_values(by="score", ascending=False)
+                               columns=['score']).sort_values(by='score', ascending=False)
     return xgb_reg, rmse, hyperparams, data_gain, data_weight
