@@ -60,25 +60,6 @@ Note that TPE algorithm (Bayesian Optimization) was used to select the best perf
 - [Bayesian Random Forest adaption](https://github.com/jose-jaen/Airbnb/blob/main/Functions/_forest.py)
 
 # Price Prediction App
-[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://jose-jaen-airbnb-deploymentapp-raoe1i.streamlit.app)
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://airbnb-prices.streamlit.app/)
 
 Click on the icon above to acces the Airbnb Price Prediction App!
-
-# Recent and future updates
-
-Deadline: January 2023 [Working project]
-
-Recent Updates:
-
-- Added Bayesian Inference (hypothesis testing)
-- Added Artificial Neural Network code (Tensorflow + hyperas)
-- Included Bayesian Neural Network code (Pytorch + blitz)
-- Bayesian Linear Regression results (posterior distribution of weights)
-- Uploaded bachelor thesis document (subject to updates, still unfinished)
-- eXplainable Artifitial Intelligence (XAI) methods
-- Model deployment using Streamlit
-
-To be added:
-
-- Pseudo-code of ANN, BNN, XGBoost
-- Updated list of tables & figures and appendix
