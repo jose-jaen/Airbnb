@@ -62,4 +62,4 @@ Note that TPE algorithm (Bayesian Optimization) was used to select the best perf
 # Price Prediction App
 [![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://airbnb-prices.streamlit.app/)
 
-Click on the icon above to acces the Airbnb Price Prediction App!
+Click on the icon above to acces the Airbnb Price Prediction Web App!
