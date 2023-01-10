@@ -183,7 +183,7 @@ def BNN(train, valid, test):
             # Define loss
             loss = regressor.sample_elbo(inputs=datapoints.to(device),
                                          labels=labels.to(device), criterion=criterion,
-                                         sample_nbr=3, complexity_cost_weight=1 / train[0].shape[0])
+                                         sample_nbr=3, complexity_cost_weight=1/train[0].shape[0])
 
             # Compute gradient of Tensors
             loss.backward()
