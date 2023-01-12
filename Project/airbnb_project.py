@@ -1,9 +1,9 @@
 # Load required libraries and custom functions
-from ml_models import *
-from dl_models import *
-from cv_functions import *
-from nlp_functions import *
-from general_functions import *
+from Functions.ml_models import *
+from Functions.dl_models import *
+from Functions.cv_functions import *
+from Functions.nlp_functions import *
+from Functions.general_functions import *
 
 # Retrieving data using our defined function
 reviews = read_url('http://data.insideairbnb.com/united-states/ca/los-angeles/2022-06-06/data/reviews.csv.gz')
