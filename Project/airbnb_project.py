@@ -304,12 +304,7 @@ for i in range(300):
     results.append(medians)
 
 # Check if females charge less than males (median value)
-bias = [1 if i >= 0 else 0 for i in results]
-res = np.sum(bias)/len(bias)
-print(res)
-
-# Define some tolerance for higher prices and check again
-bias = [1 if i >= np.median(results) else 0 for i in results]
+bias = [1 if abs(i) >= 0.01 else 0 for i in results]
 res = np.sum(bias)/len(bias)
 print(res)
 
