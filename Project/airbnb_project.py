@@ -308,6 +308,10 @@ bias = [1 if abs(i) >= 0.01 else 0 for i in results]
 res = np.sum(bias)/len(bias)
 print(res)
 
+# Frequentist sign test
+stat, pval, med, tbl = median_test(female_price, male_price)
+print(pval)
+
 # Machine Learning and Deep Learning modeling
 # Split target variable from feature data matrix
 y = listings['price']
