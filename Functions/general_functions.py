@@ -12,6 +12,7 @@ import pandas as pd
 from scipy import stats
 from fitter import Fitter
 from scipy.stats import pareto
+from scipy.stats import median_test
 from scipy.spatial.distance import cdist
 from numpy.random import default_rng
 from sklearn.metrics import pairwise_distances
