@@ -152,13 +152,14 @@ with col3:
     
 st.markdown('---')
 st.subheader('Sentiment Analysis')
+st.markdown('Write a review and get the predicted sentiment!')
 
 if 'disabled' not in st.session_state:
     st.session_state['disabled'] = False
 
 def disable():
     st.session_state['disabled'] = True
-    
+
 user_input = st.text_input(
     'Introduce your own review!', 
     disabled=st.session_state.disabled, 
@@ -181,6 +182,7 @@ if run_sent:
     ranking = ranking[::-1]
     sentiment = config.id2label[ranking[0]]
     st.info(f'Predicted sentiment is {sentiment}')
+    st.session_state['disabled'] = False
 
 st.markdown('---')
 st.subheader('About')
