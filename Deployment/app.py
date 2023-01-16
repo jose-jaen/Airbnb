@@ -155,34 +155,36 @@ with col3:
     
 st.markdown('---')
 st.subheader("Sentiment Analysis")
-user_input = st.text_input('Introduce your own review!', 'My stay was amazing')
-# Preprocess text (username and link placeholders)
-def preprocess(text):
-    new_text = []
-    for t in text.split(" "):
-        t = '@user' if t.startswith('@') and len(t) > 1 else t
-        t = 'http' if t.startswith('http') else t
-        new_text.append(t)
-    return " ".join(new_text)
+user_input = st.text_input('Introduce your own review!', '')
+run_sent = st.button('Estimate sentiment')
+if run_sent:      
+    # Preprocess text (username and link placeholders)
+    def preprocess(text):
+        new_text = []
+        for t in text.split(" "):
+            t = '@user' if t.startswith('@') and len(t) > 1 else t
+            t = 'http' if t.startswith('http') else t
+            new_text.append(t)
+        return " ".join(new_text)
 
-MODEL = f"cardiffnlp/twitter-roberta-base-sentiment-latest"
-tokenizer = AutoTokenizer.from_pretrained(MODEL)
-config = AutoConfig.from_pretrained(MODEL)
+    MODEL = f"cardiffnlp/twitter-roberta-base-sentiment-latest"
+    tokenizer = AutoTokenizer.from_pretrained(MODEL)
+    config = AutoConfig.from_pretrained(MODEL)
 
-# PT
-model = AutoModelForSequenceClassification.from_pretrained(MODEL)
-text = user_input
-text = preprocess(text)
-encoded_input = tokenizer(text, return_tensors='pt')
-output = model(**encoded_input)
-scores = output[0][0].detach().numpy()
-scores = softmax(scores)
+    # PT
+    model = AutoModelForSequenceClassification.from_pretrained(MODEL)
+    text = user_input
+    text = preprocess(text)
+    encoded_input = tokenizer(text, return_tensors='pt')
+    output = model(**encoded_input)
+    scores = output[0][0].detach().numpy()
+    scores = softmax(scores)
 
-# Print labels and scores
-ranking = np.argsort(scores)
-ranking = ranking[::-1]
-sentiment = config.id2label[ranking[0]]
-st.info(f'Predicted sentiment is {sentiment}')
+    # Print labels and scores
+    ranking = np.argsort(scores)
+    ranking = ranking[::-1]
+    sentiment = config.id2label[ranking[0]]
+    st.info(f'Predicted sentiment is {sentiment}')
 
 st.markdown('---')
 st.subheader('About')
