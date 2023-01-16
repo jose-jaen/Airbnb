@@ -75,11 +75,6 @@ with col3:
     value = st.slider('Value rating', 1.0, 5.0, 3.5, step=0.5)
     accuracy = st.slider('Accuracy rating', 1.0, 5.0, 4.2, step=0.5)
 
-st.markdown('---')
-st.subheader("Sentiment Analysis")
-user_input = st.text_input('Introduce your own review!', 'My stay was amazing')
-st.markdown('---')
-
 # Center model prediction button
 col1, col2, col3 = st.columns(3)
 with col1:
@@ -157,7 +152,11 @@ with col2:
         st.info(f"Predicted price is ${round(exp(xgb_model.predict(X_test)), 2)}")
 with col3:
     st.write(' ')
-   
+    
+st.markdown('---')
+st.subheader("Sentiment Analysis")
+user_input = st.text_input('Introduce your own review!', 'My stay was amazing')
+
 st.markdown('---')
 st.subheader('About')
 st.markdown('This a Data Science project unaffiliated with Airbnb.')
