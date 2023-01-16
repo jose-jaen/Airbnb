@@ -85,25 +85,23 @@ with col2:
         with open('Deployment/xgb_reg.pkl', 'rb') as f:
             xgb_model = pickle.load(f)
 
-        # One-hot encoding amenities
-        options = ['TV', 'Wifi', 'Netflix', 'Swimming pool', 'Hot tub', 'Gym', 'Elevator',
-                   'Fridge', 'Heating', 'Air Conditioning', 'Hair dryer', 'BBQ', 'Oven',
-                   'Security cameras', 'Workspace', 'Coffee maker', 'Backyard',
-                   'Outdoor dining', 'Host greeting', 'Beachfront', 'Patio',
-                   'Luggage dropoff', 'Furniture']
+        amens = [1 if i in amenities else 0 for i in options]
+        tv, wifi, netflix, pool = amens[0], amens[1], amens[2], amens[3]
+        tub, gym, elevator, fridge = amens[4], amens[5], amens[6], amens[7]
+        heat, air, hair, bbq = amens[8], amens[9], amens[10], amens[11]
+        oven, cams, workspace, coffee = amens[12], amens[13], amens[14], amens[15]
+        backyard, outdoor, greet, beach = amens[16], amens[17], amens[18], amens[19]
+        patio, luggage, furniture = amens[20], amens[21], amens[22]
 
-        # Dictionary comprehension
-        amens = {opt: int(opt in amenities) for opt in options}
-
-        # Assign values to variables
-        def assign(
-                tv, wifi, netflix, pool, tub, gym, elevator, fridge,
-                heat, air, hair, bbq, oven, cams, workspace, coffee,
-                backyard, outdoor, greet, beach, patio, luggage, furniture
-        ):
-            pass
-
-        assign(**amens)
+        # One-hot encoding binary features
+        dec = 1 if dec == 'Yes' else 0
+        super_host = 1 if super_host == 'Yes' else 0
+        pic = 1 if pic == 'Yes' else 0
+        verified = 1 if verified == 'Yes' else 0
+        availability = 1 if availability == 'Yes' else 0
+        instant = 1 if instant == 'Yes' else 0
+        gender = 1 if gender == 'Yes' else 0
+        no_review = 0 if no_review == 'Yes' else 1
 
         # One-hot encoding binary features
         dec = int(dec == 'Yes')
