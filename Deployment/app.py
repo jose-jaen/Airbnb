@@ -9,9 +9,6 @@ from io import BytesIO
 import requests
 from sentiment import *
 
-# Load transformer for sentiment analysis
-model, tokenizer, config = load_model()
-
 # Set up header and brief description
 with st.container():
     st.title('Airbnb Price Predictor')
@@ -172,6 +169,8 @@ user_input = st.text_input(
 run_sent = st.button('Estimate sentiment')
 
 if run_sent:
+    # Load transformer for sentiment analysis
+    model, tokenizer, config = load_model()
     text = preprocess(user_input)
     encoded_input = tokenizer(text, return_tensors='pt')
     output = model(**encoded_input)
