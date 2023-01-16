@@ -7,6 +7,10 @@ from math import exp
 from scipy import stats
 from io import BytesIO
 import requests
+from transformers import AutoModelForSequenceClassification
+from transformers import TFAutoModelForSequenceClassification
+from transformers import AutoTokenizer, AutoConfig
+from scipy.special import softmax
 
 # Set up header and brief description
 with st.container():
@@ -71,6 +75,9 @@ with col3:
     value = st.slider('Value rating', 1.0, 5.0, 3.5, step=0.5)
     accuracy = st.slider('Accuracy rating', 1.0, 5.0, 4.2, step=0.5)
 
+st.markdown('---')
+st.subheader("Sentiment Analysis")
+user_input = st.text_input('Introduce your own review!', 'My stay was amazing')
 st.markdown('---')
 
 # Center model prediction button
