@@ -169,7 +169,7 @@ run_sent = st.button('Estimate sentiment')
 
 if run_sent:      
     model, tokenizer, config = load_model()
-    text = preprocess(text)
+    text = preprocess(user_input)
     encoded_input = tokenizer(text, return_tensors='pt')
     output = model(**encoded_input)
     scores = output[0][0].detach().numpy()
