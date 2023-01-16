@@ -167,7 +167,8 @@ user_input = st.text_input(
 
 run_sent = st.button('Estimate sentiment')
 
-if run_sent:      
+if run_sent:
+    st.session_state['disabled'] = False
     model, tokenizer, config = load_model()
     text = preprocess(user_input)
     encoded_input = tokenizer(text, return_tensors='pt')
@@ -180,7 +181,6 @@ if run_sent:
     ranking = ranking[::-1]
     sentiment = config.id2label[ranking[0]]
     st.info(f'Predicted sentiment is {sentiment}')
-    st.session_state['disabled'] = False
 
 st.markdown('---')
 st.subheader('About')
