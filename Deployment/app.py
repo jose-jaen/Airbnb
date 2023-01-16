@@ -7,10 +7,7 @@ from math import exp
 from scipy import stats
 from io import BytesIO
 import requests
-from transformers import AutoModelForSequenceClassification
-from transformers import TFAutoModelForSequenceClassification
-from transformers import AutoTokenizer, AutoConfig
-from scipy.special import softmax
+from sentiment import *
 
 # Set up header and brief description
 with st.container():
@@ -154,26 +151,24 @@ with col3:
     st.write(' ')
     
 st.markdown('---')
-st.subheader("Sentiment Analysis")
-user_input = st.text_input('Introduce your own review!', '')
+st.subheader('Sentiment Analysis')
+
+if 'disabled' not in st.session_state:
+    st.session_state['disabled'] = False
+
+def disable():
+    st.session_state['disabled'] = True
+
+user_input = st.text_input(
+    'Introduce your own review!', 
+    disabled=st.session_state.disabled, 
+    on_change=disable
+)
+
 run_sent = st.button('Estimate sentiment')
+
 if run_sent:      
-    # Preprocess text (username and link placeholders)
-    def preprocess(text):
-        new_text = []
-        for t in text.split(" "):
-            t = '@user' if t.startswith('@') and len(t) > 1 else t
-            t = 'http' if t.startswith('http') else t
-            new_text.append(t)
-        return " ".join(new_text)
-
-    MODEL = f"cardiffnlp/twitter-roberta-base-sentiment-latest"
-    tokenizer = AutoTokenizer.from_pretrained(MODEL)
-    config = AutoConfig.from_pretrained(MODEL)
-
-    # PT
-    model = AutoModelForSequenceClassification.from_pretrained(MODEL)
-    text = user_input
+    model, tokenizer, config = load_model()
     text = preprocess(text)
     encoded_input = tokenizer(text, return_tensors='pt')
     output = model(**encoded_input)
