@@ -169,7 +169,6 @@ user_input = st.text_input(
 run_sent = st.button('Estimate sentiment')
 
 if run_sent:
-    st.session_state['disabled'] = False
     model, tokenizer, config = load_model()
     text = preprocess(user_input)
     encoded_input = tokenizer(text, return_tensors='pt')
