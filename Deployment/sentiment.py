@@ -16,5 +16,8 @@ def preprocess(text):
     return ' '.join(new_text)
 
 def load_model():
-    model = AutoModelForSequenceClassification.from_pretrained('./Airbnb/Deplyoment/')
-    return model
+    MODEL = f'cardiffnlp/twitter-roberta-base-sentiment-latest'
+    tokenizer = AutoTokenizer.from_pretrained(MODEL)
+    config = AutoConfig.from_pretrained(MODEL)
+    model = AutoModelForSequenceClassification.from_pretrained(MODEL)
+    return model, tokenizer, config
