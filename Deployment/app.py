@@ -159,9 +159,6 @@ if 'disabled' not in st.session_state:
 def disable():
     st.session_state['disabled'] = True
     
-def enable():
-    st.session_state['disabled'] = False
-
 user_input = st.text_input(
     'Introduce your own review!', 
     disabled=st.session_state.disabled, 
@@ -183,7 +180,7 @@ if run_sent:
     ranking = ranking[::-1]
     sentiment = config.id2label[ranking[0]]
     st.info(f'Predicted sentiment is {sentiment}')
-    enable()
+    st.session_state['disabled'] = False
 
 st.markdown('---')
 st.subheader('About')
