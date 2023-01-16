@@ -21,8 +21,8 @@ col1, col2 = st.columns(2)
 with col1:
     accommodates = st.slider('Maximum Capacity', 1, 16, 4)
     bathrooms = st.slider('Number of bathrooms', 1, 9, 2)
-    room_type = st.selectbox('Room Type',
-                             ('Private room', 'Entire apartment', 'Shared room', 'Hotel room'))
+    room_type = st.selectbox('Room Type', ('Private room', 'Entire apartment',
+                                           'Shared room', 'Hotel room'))
     instant = st.selectbox('Can the listing be instantly booked?',
                            ('No', 'Yes'))
 with col2:
@@ -45,13 +45,14 @@ col1, col2 = st.columns(2)
 with col1:
     gender = st.selectbox('Host gender', ('Female', 'Male', 'Other/Corporation'))
     pic = st.selectbox('Does your host have a profile picture?', ('Yes', 'No'))
-    dec = st.selectbox('Did your host write a description about the listing?', ('Yes', 'No'))
+    dec = st.selectbox('Did your host write a description about the listing?',
+                       ('Yes', 'No'))
     super_host = st.selectbox('Is your host a superhost?', ('No', 'Yes'))
 with col2:
     verified = st.selectbox('Is your host verified?', ('Yes', 'No'))
     availability = st.selectbox('Is the listing available?', ('Yes', 'No'))
-    response = st.selectbox('Response rate', (
-        'Within an hour', 'Within a few hours', 'Within a day', 'Within a few days'))
+    response = st.selectbox('Response rate', ('Within an hour', 'Within a few hours',
+                                              'Within a day', 'Within a few days'))
     no_review = st.selectbox('Did your host get any review?', ('Yes', 'No'))
 
 host_since = st.slider(
@@ -79,11 +80,11 @@ with col1:
     st.write(' ')
 with col2:
     run_preds = st.button('Run the model')
-    if run_preds:    
+    if run_preds:
         # Load AI model
         with open('Deployment/xgb_reg.pkl', 'rb') as f:
             xgb_model = pickle.load(f)
-            
+
         # One-hot encoding amenities
         options = ['TV', 'Wifi', 'Netflix', 'Swimming pool', 'Hot tub', 'Gym', 'Elevator',
                    'Fridge', 'Heating', 'Air Conditioning', 'Hair dryer', 'BBQ', 'Oven',
@@ -91,66 +92,70 @@ with col2:
                    'Outdoor dining', 'Host greeting', 'Beachfront', 'Patio',
                    'Luggage dropoff', 'Furniture']
 
-        amens = [1 if i in amenities else 0 for i in options]
-        tv, wifi, netflix, pool = amens[0], amens[1], amens[2], amens[3]
-        tub, gym, elevator, fridge = amens[4], amens[5], amens[6], amens[7]
-        heat, air, hair, bbq = amens[8], amens[9], amens[10], amens[11]
-        oven, cams, workspace, coffee = amens[12], amens[13], amens[14], amens[15]
-        backyard, outdoor, greet, beach = amens[16], amens[17], amens[18], amens[19]
-        patio, luggage, furniture = amens[20], amens[21], amens[22]
+        # Dictionary comprehension
+        amens = {opt: int(opt in amenities) for opt in options}
+
+        # Assign values to variables
+        def assign(
+                tv, wifi, netflix, pool, tub, gym, elevator, fridge,
+                heat, air, hair, bbq, oven, cams, workspace, coffee,
+                backyard, outdoor, greet, beach, patio, luggage, furniture
+        ):
+            pass
+
+        assign(**amens)
 
         # One-hot encoding binary features
-        dec = 1 if dec == 'Yes' else 0
-        super_host = 1 if super_host == 'Yes' else 0
-        pic = 1 if pic == 'Yes' else 0
-        verified = 1 if verified == 'Yes' else 0
-        availability = 1 if availability == 'Yes' else 0
-        instant = 1 if instant == 'Yes' else 0
-        gender = 1 if gender == 'Yes' else 0
-        no_review = 0 if no_review == 'Yes' else 1
+        dec = int(dec == 'Yes')
+        super_host = int(super_host == 'Yes')
+        pic = int(pic == 'Yes')
+        verified = int(verified == 'Yes')
+        availability = int(availability == 'Yes')
+        instant = int(instant == 'Yes')
+        gender = int(gender == 'Yes')
+        no_review = int(no_review == 'No')
 
         # Encode room_type feature
-        rooms = {
+        room_type = {
             'Private room': 1,
             'Entire home/apt': 2,
             'Shared room': 3,
             'Hotel room': 4
-        }
-        room_type = rooms.get(room_type)
+        }.get(room_type, 0)
 
         # Encode response_time feature
-        responses = {
+        response = {
             'Within an hour': 1,
             'Within a few hours': 2,
             'Within a day': 3,
             'Within a few days': 4
-        }
-        response = responses.get(response)
+        }.get(response, 0)
 
         # Set up feature matrix for predictions
+        X_train = pd.read_csv()
         X_test = pd.DataFrame(data=np.column_stack((
-            dec, 2049.8854, response, 76.6324, 
+            dec, 2049.8854, response, 76.6324,
             71.2640, super_host, 69.1362, pic, verified,
-            room_type, accommodates, bathrooms, 
+            room_type, accommodates, bathrooms,
             bedrooms, beds, min_nights, 601.9025,
             27.1608, 332469.8321, availability,
             9.7215, 40.2549, 179.5286, 36.1675,
-            9.8272, 0.9183, 827.2542, 238.0988, 
-            4.6789, accuracy, clean, checkin, 
+            9.8272, 0.9183, 827.2542, 238.0988,
+            4.6789, accuracy, clean, checkin,
             communication, location, value,
             instant, 18.3119, 14.5421, 3.3295,
             0.3858, 0, 114, 0, 1.1963, 1,
-            -0.3559, -0.7283, 0.5242, 17, 
+            -0.3559, -0.7283, 0.5242, 17,
             tv, netflix, gym, elevator, fridge,
-            heat, hair, air, tub, oven, bbq, cams, 
-            workspace, coffee, backyard, outdoor, 
+            heat, hair, air, tub, oven, bbq, cams,
+            workspace, coffee, backyard, outdoor,
             greet, pool, beach, patio, luggage, furniture,
             gender, 0.9643, 0.9029, 0.9650, no_review)))
-        
+
         st.info(f"Predicted price is ${round(exp(xgb_model.predict(X_test)), 2)}")
 with col3:
     st.write(' ')
-   
+
 st.markdown('---')
 st.subheader('About')
 st.markdown('This a Data Science project unaffiliated with Airbnb.')
