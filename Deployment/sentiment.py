@@ -17,7 +17,7 @@ def preprocess(text):
 
 def load_model():
     PATH = './Deployment/nlp_model'
-    tokenizer = AutoTokenizer.from_pretrained(MODEL)
-    config = AutoConfig.from_pretrained(MODEL)
-    model = AutoModelForSequenceClassification.from_pretrained(MODEL)
+    tokenizer = AutoTokenizer.from_pretrained(PATH)
+    config = AutoConfig.from_pretrained(PATH)
+    model = AutoModelForSequenceClassification.from_pretrained(PATH)
     return model, tokenizer, config
