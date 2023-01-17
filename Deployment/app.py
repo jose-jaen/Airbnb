@@ -59,7 +59,7 @@ host_since = st.slider(
     'Number of days your host has been using Airbnb',
     1, 5000, 2000)
 
-st.markdown("---")
+st.markdown('---')
 st.subheader("Guests' feedback")
 col1, col2, col3 = st.columns(3)
 with col1:
