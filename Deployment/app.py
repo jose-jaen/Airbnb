@@ -182,7 +182,6 @@ if run_sent:
     ranking = ranking[::-1]
     sentiment = config.id2label[ranking[0]]
     st.info(f'Predicted sentiment is {sentiment}')
-    st.session_state['disabled'] = False
 
 st.markdown('---')
 st.subheader('About')
