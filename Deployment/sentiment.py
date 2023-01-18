@@ -16,7 +16,7 @@ def preprocess(text):
     return ' '.join(new_text)
 
 def load_model():
-    PATH = './Deployment/nlp_model'
+    PATH = f'cardiffnlp/twitter-roberta-base-sentiment-latest'
     tokenizer = AutoTokenizer.from_pretrained(PATH)
     config = AutoConfig.from_pretrained(PATH)
     model = AutoModelForSequenceClassification.from_pretrained(PATH)
