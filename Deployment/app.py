@@ -188,6 +188,8 @@ st.subheader('About')
 st.markdown('This a Data Science project unaffiliated with Airbnb.')
 st.markdown('Note that the predicted price is the amount hosts charge **per night**!')
 st.markdown('Prediction accuracy is limited to listings in **Los Angeles** from **summer 2022**')
+st.markdown('Sentiment Analysis prediction is limited to one request due to limited compute resources')
+st.markdown('Daily maintenance is scheduled at 12:00 am and 17:00')
 thesis = 'https://github.com/jose-jaen/Airbnb'
 st.markdown('Feel free to check the entirety of my Bachelor Thesis [here](%s)' % thesis)
 linkedin = 'https://www.linkedin.com/in/jose-jaen/'
