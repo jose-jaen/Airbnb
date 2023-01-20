@@ -14,6 +14,11 @@ A Bayesian perspective is taken to perform statistical inference, hyperparameter
 
 Additionally, XAI methods are used to overcome the black box problem of AI models.
 
+# Price Prediction App
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://airbnb-prices.streamlit.app/)
+
+Click on the icon above to acces the Airbnb Price Prediction Web App!
+
 # Bachelor Thesis Document
 
 Click on the link below to access the Thesis explaining all Machine Learning, XAI and Statistical Inference operations. 
@@ -58,8 +63,3 @@ Note that TPE algorithm (Bayesian Optimization) was used to select the best perf
 - [Deep Learning modeling](https://github.com/jose-jaen/Airbnb/blob/main/Functions/dl_models.py)
 
 - [Bayesian Random Forest adaption](https://github.com/jose-jaen/Airbnb/blob/main/Functions/_forest.py)
-
-# Price Prediction App
-[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://airbnb-prices.streamlit.app/)
-
-Click on the icon above to acces the Airbnb Price Prediction Web App!
