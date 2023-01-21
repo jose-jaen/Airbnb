@@ -8,7 +8,7 @@ In this Quantitative Economics Bachelor Thesis, Machine Learning and Deep Learni
 
 Two datasets for Los Angeles city are retrieved from [Inside Airbnb](http://insideairbnb.com/): listings data and the reviews dataset.
 
-Combining custom functions, transfer learning and Open Source AI frameworks such as scikit-learn, Tensorflow and Pytorch, several AI models are built to help economic agents make informed decisions.
+Combining custom functions, transfer learning and Open Source AI frameworks such as scikit-learn, TensorFlow and PyTorch, several AI models are built to help economic agents make informed decisions.
 
 A Bayesian perspective is taken to perform statistical inference, hyperparameter tuning and data modeling.
 
