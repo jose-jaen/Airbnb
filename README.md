@@ -21,7 +21,7 @@ Click on the icon above to acces the Airbnb Price Prediction Web App!
 
 # Bachelor Thesis Document
 
-Click on the link below to access the Thesis explaining all Machine Learning, XAI and Statistical Inference operations. 
+Click on the link below to access the thesis explaining all Machine Learning, XAI and Statistical Inference techniques. 
 
 - [Thesis Document](https://github.com/jose-jaen/Airbnb/blob/main/Project/Thesis.pdf)
 
