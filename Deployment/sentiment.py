@@ -6,7 +6,7 @@ from scipy.special import softmax
 
 logging.set_verbosity_error()
 
-# Preprocess text (username and link placeholders)
+# Preprocess text
 def preprocess(text):
     new_text = []
     for t in text.split(' '):
@@ -15,6 +15,7 @@ def preprocess(text):
         new_text.append(t)
     return ' '.join(new_text)
 
+# Load transformer model
 def load_model():
     PATH = f'cardiffnlp/twitter-roberta-base-sentiment-latest'
     tokenizer = AutoTokenizer.from_pretrained(PATH)
