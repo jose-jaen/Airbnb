@@ -41,8 +41,7 @@ def read_url(link):
 
 
 def one_hot_encoder(word, data, text, aux):
-    """ Creates binary variables based on the presence of a word in a comment.
-    One-hot encoding assigning value one if the condition is met, zero otherwise
+    """ Creates binary variables based on the presence of a word in a comment
 
     - Parameters:
         - word = word to be identified in the text
@@ -128,7 +127,7 @@ def vgeom(D):
 
 
 def gower(X1, X2, X3):
-    """ Computes a statistical distance matrix for mixed data types
+    """ Computes statistical distance matrix for mixed data types
 
     - Parameters:
         - X1 = Continuous features matrix
@@ -143,17 +142,17 @@ def gower(X1, X2, X3):
     S_inv = np.linalg.inv(np.cov(X1.T, bias=False))
     M = pairwise_distances(X1, metric='mahalanobis', n_jobs=-1, VI=S_inv)
     M2 = np.multiply(M, M)
-    M = M/vgeom(M2)
+    M /= vgeom(M2)
 
     # Distance Matrix for binary variables
     J = cdist(X2, X2, 'jaccard')
     J2 = np.multiply(J, J)
-    J = J/vgeom(J)
+    J /= vgeom(J2)
 
     # Distance Matrix for categorical variables
     C = cdist(X3, X3, 'hamming')
     C2 = np.multiply(C, C)
-    C = C/vgeom(C2)
+    C /= vgeom(C2)
 
     # Gower Distance Matrix
     D = M + J + C
