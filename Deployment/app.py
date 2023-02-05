@@ -7,7 +7,6 @@ from math import exp
 from scipy import stats
 from io import BytesIO
 import requests
-from sentiment import *
 
 # Set up header and brief description
 with st.container():
@@ -149,43 +148,10 @@ with col2:
         st.info(f"Predicted price is ${round(exp(xgb_model.predict(X_test)), 2)}")
 with col3:
     st.write(' ')
-    
-st.markdown('---')
-st.subheader('Sentiment Analysis')
-st.markdown('Write a review and get the predicted sentiment!')
-
-if 'disabled' not in st.session_state:
-    st.session_state['disabled'] = False
-
-def disable():
-    st.session_state['disabled'] = True
-
-user_input = st.text_input(
-    'Introduce your own review!', 
-    disabled=st.session_state.disabled, 
-    on_change=disable
-)
-
-run_sent = st.button('Estimate sentiment')
-
-if run_sent:
-    # Load transformer for sentiment analysis
-    model, tokenizer, config = load_model()
-    text = preprocess(user_input)
-    encoded_input = tokenizer(text, return_tensors='pt')
-    output = model(**encoded_input)
-    scores = output[0][0].detach().numpy()
-    scores = softmax(scores)
-
-    # Print labels and scores
-    ranking = np.argsort(scores)
-    ranking = ranking[::-1]
-    sentiment = config.id2label[ranking[0]]
-    st.info(f'Predicted sentiment is {sentiment}')
-
+ 
 st.markdown('---')
 st.subheader('About')
-st.markdown('This a Data Science project unaffiliated with Airbnb.')
+st.markdown('This a Data Science project unaffiliated with Airbnb')
 st.markdown('Note that the predicted price is the amount hosts charge **per night**!')
 st.markdown('Prediction accuracy is limited to listings in **Los Angeles** from **summer 2022**')
 st.markdown('Sentiment Analysis prediction is restricted to one request due to limited compute resources')
