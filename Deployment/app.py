@@ -153,6 +153,7 @@ with col3:
 st.markdown('---')
 st.subheader('Sentiment Analysis')
 st.markdown('Write a review and get the predicted sentiment!')
+st.markdown('Click on the button once you finish the review')
 
 if 'disabled' not in st.session_state:
     st.session_state['disabled'] = False
