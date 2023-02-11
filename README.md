@@ -1,6 +1,8 @@
 # Airbnb Price Prediction :house:
 
-Looking for a fair-priced Airbnb listing to book? Are you a real estate firm or Airbnb host seeking to set competitive prices?
+Looking for a fair-priced Airbnb listing to book? 
+
+Are you a real estate firm or Airbnb host seeking to set competitive prices?
 
 Artificial Intelligence is surely the way to go! :robot:
 
