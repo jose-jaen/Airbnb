@@ -14,7 +14,7 @@ Combining custom functions, transfer learning and Open Source AI frameworks such
 
 A Bayesian perspective is taken to perform statistical inference, hyperparameter tuning and data modeling.
 
-Additionally, XAI methods are used to overcome the black box problem of AI models.
+Additionally, XAI methods are used to overcome the black box problem of AI algorithms.
 
 # Price Prediction App
 [![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://airbnb-prices.streamlit.app/)
