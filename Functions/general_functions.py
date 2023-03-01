@@ -137,7 +137,6 @@ def gower(X1, X2, X3):
     - Output:
         - Gower Distance Matrix
     """
-
     # Distance Matrix for continuous variables
     S_inv = np.linalg.inv(np.cov(X1.T, bias=False))
     M = pairwise_distances(X1, metric='mahalanobis', n_jobs=-1, VI=S_inv)
@@ -235,7 +234,6 @@ def Iterative_Imputer(feature, target, model):
 
     # Select model for Iterative Imputation Algorithm
     if model == 'bayesian':
-        
         # Fit a Bayesian Ridge Regression model
         imp = IterativeImputer(estimator=BayesianRidge(), 
                                max_iter=25, random_state=42)
@@ -247,7 +245,6 @@ def Iterative_Imputer(feature, target, model):
         feature = feature.drop('target', axis=1)
 
     else:
-        
         # Fit a Random Forest model
         random_forest = RandomForestRegressor(max_depth=12, bootstrap=2,
                                               max_samples=0.5, n_jobs=-1, random_state=42)
@@ -285,9 +282,11 @@ def imputer_performance(data, imputer):
     # Impute data with different algorithms
     if imputer == 'knn':
         imputed_data = KNN_Imputer(imputer_data, data[1], k=6)
+        
     elif imputer == 'bayes':
         imputed_data = Iterative_Imputer(imputer_data, data[1], model='bayesian')
         imputed_data = imputed_data[0]
+        
     else:
         imputed_data = Iterative_Imputer(imputer_data, data[1], model='forest')
         imputed_data = imputed_data[0]
@@ -322,6 +321,7 @@ def XAI_SHAP(model, data, graph, obs):
         
         # Global Interpretability (impact on target variable)
         shap.summary_plot(shap_values, data, max_display=20)
+        
     else:
         # Local Interpretability (coefficients)
         shap.plots.bar(shap_values[obs], max_display=20)
@@ -374,5 +374,6 @@ def XAI_PDP_ICE(model, data, var1, var2, ice: bool):
     if ice:
         PartialDependenceDisplay.from_estimator(model, data,
                                                 features, kind=['both', 'both', 'average'])
+        
     else:
         PartialDependenceDisplay.from_estimator(model, data, features)
