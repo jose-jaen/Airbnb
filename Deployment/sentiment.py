@@ -1,8 +1,11 @@
-from transformers import AutoModelForSequenceClassification
-from transformers import TFAutoModelForSequenceClassification
-from transformers import AutoTokenizer, AutoConfig
-from transformers import logging
 from scipy.special import softmax
+from transformers import (
+    AutoModelForSequenceClassification,
+    TFAutoModelForSequenceClassification,
+    AutoTokenizer, 
+    AutoConfig, 
+    logging
+)
 
 logging.set_verbosity_error()
 
