@@ -73,9 +73,7 @@ with col3:
     accuracy = st.slider('Accuracy rating', 1.0, 5.0, 4.2, step=0.5)
 
 # Center model prediction button
-col1, col2, col3 = st.columns(3)
-with col1:
-    st.write(' ')
+_, col2, _ = st.columns(3)
 with col2:
     run_preds = st.button('Run the model')
     if run_preds:    
@@ -147,8 +145,6 @@ with col2:
             gender, 0.9643, 0.9029, 0.9650, no_review)))
         
         st.info(f"Predicted price is ${round(exp(xgb_model.predict(X_test)), 2)}")
-with col3:
-    st.write(' ')
  
 st.markdown('---')
 st.subheader('Sentiment Analysis')
@@ -157,9 +153,11 @@ st.markdown('Write a review and get the predicted sentiment!')
 if 'disabled' not in st.session_state:
     st.session_state['disabled'] = False
 
+    
 def disable():
     st.session_state['disabled'] = True
 
+    
 user_input = st.text_input(
     'Introduce your own review!', 
     disabled=st.session_state.disabled, 
