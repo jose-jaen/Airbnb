@@ -123,7 +123,7 @@ def vgeom(D):
     """
     n = D.shape[0]
     suma = np.sum(D, axis=1)
-    return np.sum(suma)/n**2
+    return np.sum(suma)/2*n**2
 
 
 def gower(X1, X2, X3):
